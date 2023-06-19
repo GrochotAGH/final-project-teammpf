@@ -1,0 +1,95 @@
+html {
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;  
+    min-height: 100vh;
+    flex-direction: column;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+    min-height: 100vh;
+}
+p {
+    margin: 0px;
+    padding: 0px;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+    font-family: Calibri;
+    font-size: 16px;
+    font-weight: lighter;
+    text-decoration: none;
+    color: black;
+}
+header {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    padding: 30px;
+    align-items: baseline;
+    justify-content: space-between;
+}
+#menu {
+    display: none;
+}
+nav{
+    flex-grow: 2;
+    align-self: flex-start;
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 75px;
+    padding-right: 30px;
+}
+main {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    padding: 15px;
+
+}
+.title {
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 32px;
+}
+#div {
+    display: flex;
+    flex-grow: 1;
+}
+#uwaga{
+border-style: solid;
+border-color: red;
+font-size: 20px;
+}
+footer {
+    display: flex; /* or inline-flex */
+    flex-direction: column;
+    height: 100px;
+    background-color: darkslategrey;
+    color: white;
+    border-top-style: solid;
+    border-top-width: 2px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+#footer{
+    color:white;
+}
+
+@media all and (max-width: 900px) {
+main {
+    flex-wrap: wrap;
+}
+.title{
+    display: none;
+}
+nav{
+    display: none;
+}
+#menu{
+    display: block;
+}
+}
