@@ -49,6 +49,16 @@ main {
     padding: 15px;
 
 }
+/* próba dekorowania przycisku */
+#rejestracja{
+    flex-grow: 2;
+    align-self: flex-start;
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 75px;
+    padding-right: 30px;
+}
+
 .title {
     margin-left: 15px;
     font-weight: bold;
