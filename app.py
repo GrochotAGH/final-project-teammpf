@@ -13,6 +13,14 @@ db_config = {
     'raise_on_warnings': True
 }
 
+@app.route('/rejestracja.html')
+def rejestracja():
+    return render_template('rejestracja.html')
+
+@app.route('/logowanie.html')
+def logowanie():
+    return render_template('logowanie.html')
+
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
