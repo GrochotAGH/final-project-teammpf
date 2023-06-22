@@ -42,8 +42,7 @@ def zgloszenie():
 
         try:
             # Wstawienie danych do tabeli zgłoszenia
-            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) " \
-                        "VALUES ('', %s, %s, 'przyjęte')"
+            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES ('', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
             insert_values = (godzina_zgloszenia, data_zgloszenia)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
