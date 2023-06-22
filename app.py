@@ -13,6 +13,14 @@ db_config = {
     'raise_on_warnings': True
 }
 
+@app.route('/rejestracja.html')
+def rejestracja():
+    return render_template('rejestracja.html')
+
+@app.route('/logowanie.html')
+def logowanie():
+    return render_template('logowanie.html')
+
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
@@ -34,8 +42,7 @@ def zgloszenie():
 
         try:
             # Wstawienie danych do tabeli zgłoszenia
-            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) " \
-                        "VALUES ('', %s, %s, 'przyjęte')"
+            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES ('', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
             insert_values = (godzina_zgloszenia, data_zgloszenia)
 
             insert_query = "INSERT INTO użytkownicy (login, hasło, rola, email, imię, nazwisko) " \
