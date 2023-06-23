@@ -12,6 +12,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 </head>
 <body>
+    {% if komunikat %}
+    <div class="komunikat">{{ komunikat }}</div>
+{% endif %}
 <header>
     <img src="static/icon.png" width="150" height="150">
     <img id="menu" src="static/menu.png" width="150" height="150">

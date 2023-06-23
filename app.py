@@ -175,7 +175,11 @@ def zgloszenie():
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
-            return 'Zgłoszenie dodane do bazy danych.'
+            # Zapisanie komunikatu do sesji
+            session['komunikat'] = 'Dziękujemy za przesłanie zgłoszenia'
+
+            # Przekierowanie na stronę zgłoszenia
+            return redirect(url_for('zgloszenie'))
 
         except mysql.connector.Error as error:
             cnx.rollback()
@@ -184,8 +188,10 @@ def zgloszenie():
         finally:
             cursor.close()
             cnx.close()
-
-    return render_template('index.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+        
+    # Pobranie komunikatu z sesji i usunięcie go
+    komunikat = session.pop('komunikat', None)
+    return render_template('index.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'), komunikat=komunikat)
 
 if __name__ == '__main__':
     app.run()
