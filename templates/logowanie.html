@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>Zaloguj się</title>
+        <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+        <!-- TU EWENTUALNY BOOTSTRAP -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    </head>
+    <body>
+		<header>
+			<img src="static/logo.png" width="150" height="150">
+			<img id="menu" src="static/menu.png" width="150" height="150">
+			<h1 class="title">PawsOnDuty</h1>
+            <!-- <h3>Zgłoś Policji zdarzenie</h1> -->
+			<nav>
+                <!-- TU DODAĆ MOŻLIWOŚĆ ZMIANY MOTYWU KOLORYSTYCZNEGO -->
+				<a id="link1" href=rejestracja.html>Zarejestruj się</a> 
+				<a id="link2" href=logowanie.html>Zaloguj się</a>
+			</nav>
+		</header>
+		<main>
+            <h2 class="logtitle">Logowanie</h2>
+			<form method="POST">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login" required><br><br>
+
+                <label for="hasło">Hasło:</label>
+                <input type="text" id="hasło" name="hasło" required><br><br>
+
+                <input type="submit" value="Zaloguj się">
+            </form>
+            <div id="rejestracja"><p>Nie masz konta?</p><a id="link1" href=rejestracja.html>Zarejestruj się</a></div> 
+		</main>
+		<div id="div"></div>
+		<footer>
+			<p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>
+			<p id="footer">© Maria Mostek, Patrycja Ruda, Filip Kuś. Kraków 2023.</p>
+		</footer>
+    </body>
+</html>
