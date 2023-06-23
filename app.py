@@ -121,7 +121,7 @@ def wyloguj():
     # Usunięcie flagi zalogowania z sesji
     session.pop('zalogowany', None)
     session.pop('user_id', None)  # Usunięcie również user_id z sesji
-    return redirect(url_for('zgloszenie'))
+    return redirect(url_for('logowanie'))
     
 
 # Obsługa żądania POST z formularza
