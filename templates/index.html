@@ -22,7 +22,8 @@
             <a id="link1" href=rejestracja.html>Zarejestruj się</a>
             <a id="link2" href=logowanie.html>Zaloguj się</a>
             {% else %}
-            <a href="{{ url_for('wyloguj') }}">Wyloguj</a>
+            <span>{{ imie }}</span>
+            <a href="{{ url_for('wyloguj') }}">Wyloguj</a>            
             {% endif %}
         </nav>
 </header>

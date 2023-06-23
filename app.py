@@ -35,9 +35,7 @@ def register():
         insert_values = (login, haslo, rola, email, imie, nazwisko)
         cursor.execute(insert_query, insert_values)
         cnx.commit()
-
-        # Zwrócenie potwierdzenia rejestracji
-        return "Rejestracja zakończona pomyślnie!"
+        return redirect(url_for('logowanie'))
 
     # Renderowanie szablonu formularza rejestracji
     return render_template('rejestracja.html')
@@ -57,11 +55,24 @@ def logowanie():
         # Sprawdzenie danych logowania w bazie danych
         if sprawdz_dane_logowania(login, haslo):
             session['zalogowany'] = True
+            session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
             return redirect(url_for('zgloszenie'))
         else:
             return "Błędny login lub hasło"
 
     return render_template('logowanie.html')
+
+def pobierz_imie_uzytkownika(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT imię FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()
+    cnx.close()
+    if result:
+        return result[0]
+    else:
+        return ""
 
 
 # Funkcja sprawdzająca dane logowania w bazie danych
@@ -149,7 +160,7 @@ def zgloszenie():
             cursor.close()
             cnx.close()
 
-    return render_template('index.html', zalogowany=session.get('zalogowany'))
+    return render_template('index.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))
 
 if __name__ == '__main__':
     app.run()
