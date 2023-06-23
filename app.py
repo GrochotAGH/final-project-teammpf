@@ -13,13 +13,70 @@ db_config = {
     'raise_on_warnings': True
 }
 
-@app.route('/rejestracja.html')
-def rejestracja():
+@app.route('/rejestracja.html', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # Pobranie danych z formularza
+        imie = request.form['imie']
+        nazwisko = request.form['nazwisko']
+        email = request.form['email']
+        login = request.form['login']
+        haslo = request.form['haslo']
+        rola = request.form['rola']
+
+        # Dodanie danych do tabeli użytkownicy
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO `użytkownicy` (`login`, `hasło`, `rola`, `email`, `imię`, `nazwisko`) VALUES (%s, %s, %s, %s, %s, %s)"
+        insert_values = (login, haslo, rola, email, imie, nazwisko)
+        cursor.execute(insert_query, insert_values)
+        cnx.commit()
+
+        # Zwrócenie potwierdzenia rejestracji
+        return "Rejestracja zakończona pomyślnie!"
+
+    # Renderowanie szablonu formularza rejestracji
     return render_template('rejestracja.html')
 
-@app.route('/logowanie.html')
+
+@app.route('/logowanie.html', methods=['GET', 'POST'])
 def logowanie():
+    if request.method == 'POST':
+        login = request.form['login']
+        haslo = request.form['hasło']
+
+        # Sprawdzenie danych logowania w bazie danych
+        if sprawdz_dane_logowania(login, haslo):
+            return "Zalogowano"
+        else:
+            return "Błędna nazwa użytkownika lub hasło"
+
     return render_template('logowanie.html')
+
+# Funkcja sprawdzająca dane logowania w bazie danych
+def sprawdz_dane_logowania(login, haslo):
+    # Połączenie z bazą danych (tu można dodać odpowiednie dane dostępowe)
+
+    # Przykładowe zapytanie do bazy danych w celu sprawdzenia danych logowania
+    # Należy dostosować zapytanie do struktury swojej bazy danych
+
+
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+
+    query = "SELECT COUNT(*) FROM `użytkownicy` WHERE `login` = %s AND `hasło` = %s"
+    values = (login, haslo)
+
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+
+    cnx.commit()
+
+    # Jeśli zapytanie zwraca wartość większą niż 0, to dane logowania są poprawne
+    if result and result[0] > 0:
+        return True
+    else:
+        return False
 
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
@@ -44,19 +101,6 @@ def zgloszenie():
             # Wstawienie danych do tabeli zgłoszenia
             insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES ('', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
             insert_values = (godzina_zgloszenia, data_zgloszenia)
-
-            insert_query = "INSERT INTO użytkownicy (login, hasło, rola, email, imię, nazwisko) " \
-                        "VALUES ('', '', '','','','')"
-            insert_values = ()
-            cursor.execute(insert_query, insert_values)
-            cnx.commit()            
-            
-            cursor.execute("SELECT LAST_INSERT_ID()")
-            user_id = cursor.fetchone()[0]
-
-            insert_query = "INSERT INTO zgłoszenia (user_id, tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES (%s,'', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
-            insert_values = (user_id, godzina_zgloszenia, data_zgloszenia)
-
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
@@ -64,14 +108,11 @@ def zgloszenie():
             zgloszenie_id = cursor.lastrowid
 
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
-            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce_zdarzenia, godzina_zdarzenia, data_zdarzenia) " \
-                        "VALUES (%s, %s, %s, %s, %s, %s,NULL)"
+            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce, godzina) " \
+                        "VALUES (%s, %s, %s, %s, %s, %s)"
             insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, miejsce, godzina)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
-
-            #wstawianie danych do tabeli użytkownicy
-
 
             # Wstawienie danych do tabeli sprawcy
             insert_query = "INSERT INTO sprawcy (zgloszenie_id, imie, nazwisko, data_urodzenia, opis) " \
