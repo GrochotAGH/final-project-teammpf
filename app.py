@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import mysql.connector
 from datetime import datetime
 import hashlib
@@ -13,6 +13,7 @@ db_config = {
     'database': 'bezpieczenstwopublicznedb',
     'raise_on_warnings': True
 }
+app.secret_key = 'super_secret_key'
 
 @app.route('/rejestracja.html', methods=['GET', 'POST'])
 def register():
@@ -55,9 +56,10 @@ def logowanie():
 
         # Sprawdzenie danych logowania w bazie danych
         if sprawdz_dane_logowania(login, haslo):
-            return "Zalogowano"
+            session['zalogowany'] = True
+            return redirect(url_for('zgloszenie'))
         else:
-                return "Błędny login lub hasło"
+            return "Błędny login lub hasło"
 
     return render_template('logowanie.html')
 
@@ -86,6 +88,12 @@ def sprawdz_dane_logowania(login, haslo):
         return True
     else:
         return False
+    
+@app.route('/wyloguj', methods=['GET'])
+def wyloguj():
+    # Usunięcie flagi zalogowania z sesji
+    session.pop('zalogowany', None)
+    return redirect(url_for('zgloszenie'))
     
 
 # Obsługa żądania POST z formularza
@@ -141,7 +149,7 @@ def zgloszenie():
             cursor.close()
             cnx.close()
 
-    return render_template('index.html')
+    return render_template('index.html', zalogowany=session.get('zalogowany'))
 
 if __name__ == '__main__':
     app.run()
