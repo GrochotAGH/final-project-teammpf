@@ -54,13 +54,29 @@ def logowanie():
 
         # Sprawdzenie danych logowania w bazie danych
         if sprawdz_dane_logowania(login, haslo):
+        # Pobranie user_id z bazy danych
+            user_id = pobierz_user_id(login)
+        # Dodanie user_id do sesji
+            session['user_id'] = user_id
             session['zalogowany'] = True
             session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
             return redirect(url_for('zgloszenie'))
         else:
             return "Błędny login lub hasło"
-
     return render_template('logowanie.html')
+
+# Funkcja pomocnicza do pobierania user_id z bazy danych na podstawie loginu
+def pobierz_user_id(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT user_id FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()
+    cnx.close()
+    if result:
+        return result[0]
+    else:
+        return None
 
 def pobierz_imie_uzytkownika(login):
     cnx = mysql.connector.connect(**db_config)
@@ -104,6 +120,7 @@ def sprawdz_dane_logowania(login, haslo):
 def wyloguj():
     # Usunięcie flagi zalogowania z sesji
     session.pop('zalogowany', None)
+    session.pop('user_id', None)  # Usunięcie również user_id z sesji
     return redirect(url_for('zgloszenie'))
     
 
@@ -122,14 +139,22 @@ def zgloszenie():
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
 
+                # Sprawdzenie, czy użytkownik jest zalogowany
+        if session.get('zalogowany'):
+            # Pobranie user_id z sesji
+            user_id = session.get('user_id')
+        else:
+            user_id = None
+
         # Utworzenie połączenia z bazą danych
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         try:
             # Wstawienie danych do tabeli zgłoszenia
-            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES ('', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
-            insert_values = (godzina_zgloszenia, data_zgloszenia)
+            insert_query = "INSERT INTO zgłoszenia (tytuł, user_id, godzina_zgloszenia, data_zgloszenia, status) " \
+                           "VALUES ('', %s, %s, %s, 'przyjęte')"
+            insert_values = (user_id, godzina_zgloszenia, data_zgloszenia)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
@@ -137,7 +162,7 @@ def zgloszenie():
             zgloszenie_id = cursor.lastrowid
 
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
-            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce, godzina) " \
+            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce_zdarzenia, godzina_zdarzenia) " \
                         "VALUES (%s, %s, %s, %s, %s, %s)"
             insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, miejsce, godzina)
             cursor.execute(insert_query, insert_values)
