@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import mysql.connector
 from datetime import datetime
+import hashlib
 
 app = Flask(__name__)
 
@@ -24,6 +25,8 @@ def register():
         haslo = request.form['haslo']
         rola = request.form['rola']
 
+        haslo = haslo.encode('utf-8')
+        haslo = hashlib.sha256(haslo).hexdigest()
         # Dodanie danych do tabeli użytkownicy
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
@@ -39,19 +42,25 @@ def register():
     return render_template('rejestracja.html')
 
 
+
 @app.route('/logowanie.html', methods=['GET', 'POST'])
 def logowanie():
     if request.method == 'POST':
         login = request.form['login']
         haslo = request.form['hasło']
 
+        haslo = haslo.encode('utf-8')
+        haslo = hashlib.sha256(haslo).hexdigest()
+        # Szyfrowanie hasła
+
         # Sprawdzenie danych logowania w bazie danych
         if sprawdz_dane_logowania(login, haslo):
             return "Zalogowano"
         else:
-            return "Błędna nazwa użytkownika lub hasło"
+                return "Błędny login lub hasło"
 
     return render_template('logowanie.html')
+
 
 # Funkcja sprawdzająca dane logowania w bazie danych
 def sprawdz_dane_logowania(login, haslo):
@@ -77,6 +86,7 @@ def sprawdz_dane_logowania(login, haslo):
         return True
     else:
         return False
+    
 
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
