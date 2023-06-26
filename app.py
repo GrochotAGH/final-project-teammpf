@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import mysql.connector
 from datetime import datetime
+import hashlib
 
 app = Flask(__name__)
 
@@ -12,6 +13,116 @@ db_config = {
     'database': 'bezpieczenstwopublicznedb',
     'raise_on_warnings': True
 }
+app.secret_key = 'super_secret_key'
+
+@app.route('/rejestracja.html', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # Pobranie danych z formularza
+        imie = request.form['imie']
+        nazwisko = request.form['nazwisko']
+        email = request.form['email']
+        login = request.form['login']
+        haslo = request.form['haslo']
+        rola = request.form['rola']
+
+        haslo = haslo.encode('utf-8')
+        haslo = hashlib.sha256(haslo).hexdigest()
+        # Dodanie danych do tabeli użytkownicy
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO `użytkownicy` (`login`, `hasło`, `rola`, `email`, `imię`, `nazwisko`) VALUES (%s, %s, %s, %s, %s, %s)"
+        insert_values = (login, haslo, rola, email, imie, nazwisko)
+        cursor.execute(insert_query, insert_values)
+        cnx.commit()
+        return redirect(url_for('logowanie'))
+
+    # Renderowanie szablonu formularza rejestracji
+    return render_template('rejestracja.html')
+
+
+
+@app.route('/logowanie.html', methods=['GET', 'POST'])
+def logowanie():
+    if request.method == 'POST':
+        login = request.form['login']
+        haslo = request.form['hasło']
+
+        haslo = haslo.encode('utf-8')
+        haslo = hashlib.sha256(haslo).hexdigest()
+        # Szyfrowanie hasła
+
+        # Sprawdzenie danych logowania w bazie danych
+        if sprawdz_dane_logowania(login, haslo):
+        # Pobranie user_id z bazy danych
+            user_id = pobierz_user_id(login)
+        # Dodanie user_id do sesji
+            session['user_id'] = user_id
+            session['zalogowany'] = True
+            session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
+            return redirect(url_for('zgloszenie'))
+        else:
+            return "Błędny login lub hasło"
+    return render_template('logowanie.html')
+
+# Funkcja pomocnicza do pobierania user_id z bazy danych na podstawie loginu
+def pobierz_user_id(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT user_id FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()
+    cnx.close()
+    if result:
+        return result[0]
+    else:
+        return None
+
+def pobierz_imie_uzytkownika(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT imię FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()
+    cnx.close()
+    if result:
+        return result[0]
+    else:
+        return ""
+
+
+# Funkcja sprawdzająca dane logowania w bazie danych
+def sprawdz_dane_logowania(login, haslo):
+    # Połączenie z bazą danych (tu można dodać odpowiednie dane dostępowe)
+
+    # Przykładowe zapytanie do bazy danych w celu sprawdzenia danych logowania
+    # Należy dostosować zapytanie do struktury swojej bazy danych
+
+
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+
+    query = "SELECT COUNT(*) FROM `użytkownicy` WHERE `login` = %s AND `hasło` = %s"
+    values = (login, haslo)
+
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+
+    cnx.commit()
+
+    # Jeśli zapytanie zwraca wartość większą niż 0, to dane logowania są poprawne
+    if result and result[0] > 0:
+        return True
+    else:
+        return False
+    
+@app.route('/wyloguj', methods=['GET'])
+def wyloguj():
+    # Usunięcie flagi zalogowania z sesji
+    session.pop('zalogowany', None)
+    session.pop('user_id', None)  # Usunięcie również user_id z sesji
+    return redirect(url_for('logowanie'))
+    
 
 @app.route('/rejestracja.html')
 def rejestracja():
@@ -36,14 +147,22 @@ def zgloszenie():
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
 
+                # Sprawdzenie, czy użytkownik jest zalogowany
+        if session.get('zalogowany'):
+            # Pobranie user_id z sesji
+            user_id = session.get('user_id')
+        else:
+            user_id = None
+
         # Utworzenie połączenia z bazą danych
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         try:
             # Wstawienie danych do tabeli zgłoszenia
-            insert_query = "INSERT INTO zgłoszenia (tytuł, godzina_zgloszenia, data_zgloszenia, status) VALUES ('', %s, %s, 'przyjęte')" ##tu trzeba dać jeszcze user_id który powinien gdzieś być przechowywany przy zalogowaniu 
-            insert_values = (godzina_zgloszenia, data_zgloszenia)
+            insert_query = "INSERT INTO zgłoszenia (tytuł, user_id, godzina_zgloszenia, data_zgloszenia, status) " \
+                           "VALUES ('', %s, %s, %s, 'przyjęte')"
+            insert_values = (user_id, godzina_zgloszenia, data_zgloszenia)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
@@ -51,7 +170,7 @@ def zgloszenie():
             zgloszenie_id = cursor.lastrowid
 
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
-            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce, godzina) " \
+            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce_zdarzenia, godzina_zdarzenia) " \
                         "VALUES (%s, %s, %s, %s, %s, %s)"
             insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, miejsce, godzina)
             cursor.execute(insert_query, insert_values)
@@ -64,7 +183,11 @@ def zgloszenie():
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
-            return 'Zgłoszenie dodane do bazy danych.'
+            # Zapisanie komunikatu do sesji
+            session['komunikat'] = 'Dziękujemy za przesłanie zgłoszenia'
+
+            # Przekierowanie na stronę zgłoszenia
+            return redirect(url_for('zgloszenie'))
 
         except mysql.connector.Error as error:
             cnx.rollback()
@@ -73,8 +196,10 @@ def zgloszenie():
         finally:
             cursor.close()
             cnx.close()
-
-    return render_template('index.html')
+        
+    # Pobranie komunikatu z sesji i usunięcie go
+    komunikat = session.pop('komunikat', None)
+    return render_template('index.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'), komunikat=komunikat)
 
 if __name__ == '__main__':
     app.run()
