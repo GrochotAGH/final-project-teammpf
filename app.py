@@ -128,13 +128,16 @@ def wyloguj():
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
     if request.method == 'POST':
-        opis_sprawcy = request.form['sprawca']
+        #opis_sprawcy = request.form['sprawca']
         opis = request.form['opis']
         liczba_sprawcow = request.form['liczba']
-        miejsce = request.form['miejsce']
         godzina = request.form['godzina']
-
-        
+        data = request.form['data']
+        adres = request.form['location-input']
+        numer_lokalu = request.form['numer_lokalu']
+        miasto = request.form['locality-input']
+        wojewodztwo = request.form['administrative_area_level_1-input']
+        kod_pocztowy = request.form['postal_code-input']
         # Pobranie aktualnej daty i godziny
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
@@ -162,16 +165,17 @@ def zgloszenie():
             zgloszenie_id = cursor.lastrowid
 
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
-            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce_zdarzenia, godzina_zdarzenia) " \
-                        "VALUES (%s, %s, %s, %s, %s, %s)"
-            insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, miejsce, godzina)
+            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, adres, godzina_zdarzenia, data_zdarzenia, numer_lokalu, miasto, wojewodztwo, kod_pocztowy) " \
+                        "VALUES (%s, NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            insert_values = (zgloszenie_id, opis, liczba_sprawcow, adres, godzina, data, numer_lokalu, miasto, wojewodztwo, kod_pocztowy)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
+
             # Wstawienie danych do tabeli sprawcy
             insert_query = "INSERT INTO sprawcy (zgloszenie_id, imie, nazwisko, data_urodzenia, opis) " \
-                        "VALUES (%s, '', '', NULL, %s)"
-            insert_values = (zgloszenie_id, opis_sprawcy)
+                         "VALUES (%s, '', '', NULL, '')"
+            insert_values = (zgloszenie_id,)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
