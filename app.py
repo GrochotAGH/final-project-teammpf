@@ -62,8 +62,10 @@ def logowanie():
             session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
             return redirect(url_for('zgloszenie'))
         else:
-            return "Błędny login lub hasło"
-    return render_template('logowanie.html')
+            session['komunikat'] = 'Nieprawidłowy login lub hasło'
+            return redirect(url_for('logowanie'))
+    komunikat = session.pop('komunikat', None)
+    return render_template('logowanie.html', komunikat=komunikat)
 
 # Funkcja pomocnicza do pobierania user_id z bazy danych na podstawie loginu
 def pobierz_user_id(login):
