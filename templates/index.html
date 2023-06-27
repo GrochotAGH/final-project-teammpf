@@ -3,59 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <title>PawsOnDuty</title>
-    <link rel="shortcut icon" href="icon.png"/>
+    <link rel="shortcut icon" href="static/logo.png"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+    <script>src="{{ url_for('static', filename='js/mapscript.js') }}"</script>
     <!-- TU EWENTUALNY BOOTSTRAP -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    <script>
+        "use strict";
+    
+    function initMap() {
+      const CONFIGURATION = {
+        "ctaTitle": "Ok",
+        "mapOptions": {"center":{"lat":52.235,"lng":21.01},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":true,"zoom":13,"zoomControl":true,"maxZoom":22,"mapId":""},
+        "mapsApiKey": "AIzaSyAum8iT83b1MrAEQaLt0joIK6Rdb-3uqWE",
+        "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
+      };
+      const componentForm = [
+        'location',
+        'locality',
+        'administrative_area_level_1',
+        'country',
+        'postal_code',
+      ];
+    
+      const getFormInputElement = (component) => document.getElementById(component + '-input');
+      const map = new google.maps.Map(document.getElementById("gmp-map"), {
+        zoom: CONFIGURATION.mapOptions.zoom,
+        center: { lat: 52.235, lng: 21.01},
+        mapTypeControl: false,
+        fullscreenControl: CONFIGURATION.mapOptions.fullscreenControl,
+        zoomControl: CONFIGURATION.mapOptions.zoomControl,
+        streetViewControl: CONFIGURATION.mapOptions.streetViewControl
+      });
+      const marker = new google.maps.Marker({map: map, draggable: false});
+      const autocompleteInput = getFormInputElement('location');
+      const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, {
+        fields: ["address_components", "geometry", "name"],
+        types: ["address"],
+      });
+      autocomplete.addListener('place_changed', function () {
+        marker.setVisible(false);
+        const place = autocomplete.getPlace();
+        if (!place.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert('No details available for input: \'' + place.name + '\'');
+          return;
+        }
+        renderAddress(place);
+        fillInAddress(place);
+      });
+    
+      function fillInAddress(place) {  // optional parameter
+        const addressNameFormat = {
+          'street_number': 'short_name',
+          'route': 'long_name',
+          'locality': 'long_name',
+          'administrative_area_level_1': 'short_name',
+          'country': 'long_name',
+          'postal_code': 'short_name',
+        };
+        const getAddressComp = function (type) {
+          for (const component of place.address_components) {
+            if (component.types[0] === type) {
+              return component[addressNameFormat[type]];
+            }
+          }
+          return '';
+        };
+        getFormInputElement('location').value = getAddressComp('street_number') + ' '
+                  + getAddressComp('route');
+        for (const component of componentForm) {
+          // Location field is handled separately above as it has different logic.
+          if (component !== 'location') {
+            getFormInputElement(component).value = getAddressComp(component);
+          }
+        }
+      }
+    
+      function renderAddress(place) {
+        map.setCenter(place.geometry.location);
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+      }
+    }
+</script>
 </head>
 <body>
     {% if komunikat %}
     <div class="komunikat">{{ komunikat }}</div>
 {% endif %}
 <header>
-    <img src="static/logo.png" width="150" height="150">
+    <a href = ><img src="static/logo.png" width="150" height="150"></a><br>
     <img id="menu" src="static/menu.png" width="150" height="150">
-    <h1 class="title">PawsOnDuty</h1>
-    <!-- <h3>Zgłoś Policji zdarzenie</h1> -->
-        <nav>
-            {% if not zalogowany %}
-            <a id="link1" href=rejestracja.html>Zarejestruj się</a>
-            <a id="link2" href=logowanie.html>Zaloguj się</a>
-            {% else %}
-            <span>{{ imie }}</span>
-            <a href="{{ url_for('wyloguj') }}">Wyloguj</a>            
-            {% endif %}
-        </nav>
-</header>
-<main>
-    <form method="POST">
-        <label for="miejsce">Miejsce zdarzenia:</label>
-        <input type="text" id="miejsce" name="miejsce" required><br><br>
-
-        <label for="godzina">Orientacyjna godzina zdarzenia:</label>
-        <input type="text" id="godzina" name="godzina" required><br><br>
-
-        <label for="opis">Opisz, co się stało:</label>
-        <input type="text" id="opis" name="opis" required><br><br>
-
-        <label for="liczba">Liczba sprawców:</label>
-        <input type="number" id="liczba" name="liczba" required><br><br>
-
-        <label for="sprawca">Opisz sprawcę/sprawców:</label>
-        <input type="text" id="sprawca" name="sprawca" required><br><br>
-
-        <label for="sprawca">Opisz sprawcę/sprawców:</label>
-        <input type="text" id="sprawca" name="sprawca" required><br><br>
-
-        <input type="submit" value="Wyślij zgłoszenie">
-    </form>
-    <div id="uwaga">
-        <img src="static/phone.png" width="50" height="50">
-        Pamiętaj! W przypadkach pilnych, sytuacjach zagrożenia zdrowia lub życia niezwłocznie dzwoń pod numer 112!
+    <div id="header">
+    <a href = ><h1 class="title">PawsOnDuty</h1></a>
+    <h5>Powered by Core-Oho-Duh</h5>
     </div>
+</header>
+<nav>
+    {% if not zalogowany %}
+    <a id="link1" href=rejestracja.html>Zarejestruj się</a>
+    <a id="link2" href=logowanie.html>Zaloguj się</a>
+    {% else %}
+    <span>{{ imie }}</span>
+    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>            
+    {% endif %}
+</nav>
+<main>
+
+    <div class="important">
+        <img class="info-icon" src="static/form.png" width="50" height="50">
+        Jesteś świadkiem bądź ofiarą przestępstwa lub wykroczenia? Zauważyłeś coś niepokojącego? Uważasz, że Policja powinna zająć się Twoją sprawą? Wypełnij znajdujący się poniżej formularz!
+    </div>
+    <div class="important">
+        <img class="info-icon" src="static/policeman.png" width="50" height="50">
+        Twoje zgłoszenie zostanie rozpatrzone przez dyżurnego policjanta, który zdecyduje, jakie podjąć kroki w celu naprawy sytuacji.
+    </div>
+    <div class="important" id="uwaga">
+        <img class="info-icon" src="static/phone.png" width="50" height="50">
+        Pamiętaj! W przypadkach pilnych, sytuacjach zagrożenia zdrowia lub życia niezwłocznie dzwoń pod numer 112!
+    </div> <br>
+    <form method="POST">
+    <div class="formularz">
+        <div class="card-container">
+            <div class="panel">
+              <div>
+                <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+                <span class="sb-title">Miejsce</span>
+              </div>
+              <input type="text" placeholder="Adres" id="location-input"/>
+              <input type="text" placeholder="Numer lokalu (opcjonalnie)"/>
+              <input type="text" placeholder="Miasto" id="locality-input"/>
+              <div class="half-input-container">
+                <input type="text" class="half-input" placeholder="Województwo" id="administrative_area_level_1-input"/>
+                <input type="text" class="half-input" placeholder="Kod pocztowy" id="postal_code-input"/>
+              </div>
+              <!-- <button class="button-cta">Ok</button> -->
+            </div>
+            <div class="map" id="gmp-map"></div>
+        </div> <br>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAum8iT83b1MrAEQaLt0joIK6Rdb-3uqWE&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
+        
+        <div class="form">
+            <img class="sb-title-icon" src="{{ url_for('static', filename='date.png') }}" alt="">
+            <span class="sb-title">Data i godzina</span><br><br>
+            <input type="date" placeholder="DD/MM/YYYY" onfocus="this.type='date'" onblur="this.type='text'" id="data" name="data" required><br><br><br>
+            <input type="time" id="godzina" name="godzina" required>
+        </div> <br>
+
+        <div class="form">
+            <img class="sb-title-icon" src="{{ url_for('static', filename='info.png') }}" alt="">
+            <span class="sb-title">Opis zdarzenia</span><br><br>
+            <textarea placeholder="W tym miejscu opisz, co się stało..." id="opis" name="opis" rows="10" cols="80" required></textarea>
+        </div> <br>
+
+        <div class="form">
+            <img class="sb-title-icon" src="{{ url_for('static', filename='user.png') }}" alt="">
+            <span class="sb-title">Sprawcy</span><br><br>
+            <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" required><br><br>
+        </div> 
+    </div>
+        <br><br><input id="button" type="submit" value="Wyślij zgłoszenie">
+    </form>
 </main>
 <div id="div"></div>
 <footer>
