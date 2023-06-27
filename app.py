@@ -15,6 +15,10 @@ db_config = {
 }
 app.secret_key = 'super_secret_key'
 
+@app.route('/index.html')
+def przekierowanieZgloszenie():
+    return zgloszenie()
+
 @app.route('/rejestracja.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
