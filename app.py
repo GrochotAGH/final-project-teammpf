@@ -184,6 +184,8 @@ def wyloguj():
 #     else:
 #         return redirect(url_for('zgloszenie'))
 def zgloszenie():
+    if session.get('rola') == 'funkcjonariusz':
+        return redirect(url_for('przegladanie'))
     if request.method == 'POST':
         #opis_sprawcy = request.form['sprawca']
         opis = request.form['opis']
@@ -205,6 +207,7 @@ def zgloszenie():
             user_id = session.get('user_id')
         else:
             user_id = None
+            
 
         # Utworzenie połączenia z bazą danych
         cnx = mysql.connector.connect(**db_config)
