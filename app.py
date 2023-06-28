@@ -30,7 +30,7 @@ def register():
         nazwisko = request.form['nazwisko']
         email = request.form['email']
         login = request.form['login']
-        haslo = request.form['haslo']
+        haslo = request.form['hasło']
         rola = request.form['rola']
 
         haslo = haslo.encode('utf-8')
@@ -43,6 +43,7 @@ def register():
         cursor.execute(insert_query, insert_values)
         cnx.commit()
         return redirect(url_for('logowanie'))
+    
 
     # Renderowanie szablonu formularza rejestracji
     return render_template('rejestracja.html')
