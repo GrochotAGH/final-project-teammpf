@@ -15,11 +15,20 @@ db_config = {
 }
 app.secret_key = 'super_secret_key'
 
+
+
+
 @app.route('/index.html')
 def przekierowanieZgloszenie():
-    return zgloszenie()
+    if session['rola']=='funkcjonariusz':
+        return przegladanie()
+    else:
+        return zgloszenie()
+    
 
-
+@app.route('/przegladanie.html')
+def przegladanie():
+    return render_template('przegladanie.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))
 
 
 @app.route('/rejestracja.html', methods=['GET', 'POST'])
@@ -32,7 +41,7 @@ def register():
         login = request.form['login']
         haslo = request.form['hasło']
         rola = 'cywil'
-        
+
         haslo = haslo.encode('utf-8')
         haslo = hashlib.sha256(haslo).hexdigest()
         # Dodanie danych do tabeli użytkownicy
@@ -64,11 +73,16 @@ def logowanie():
         if sprawdz_dane_logowania(login, haslo):
         # Pobranie user_id z bazy danych
             user_id = pobierz_user_id(login)
+            rola = pobierz_role_uzytkownika(login)
         # Dodanie user_id do sesji
             session['user_id'] = user_id
             session['zalogowany'] = True
+            session['rola'] = rola
             session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
-            return redirect(url_for('zgloszenie'))
+            if rola == 'cywil':
+                return redirect(url_for('zgloszenie'))
+            else:
+                return redirect(url_for('przegladanie'))
         else:
             session['komunikat'] = 'Nieprawidłowy login lub hasło'
             return redirect(url_for('logowanie'))
@@ -99,6 +113,19 @@ def pobierz_imie_uzytkownika(login):
         return result[0]
     else:
         return ""
+    
+# Funkcja pomocnicza do pobierania roli użytkownika na podstawie loginu
+def pobierz_role_uzytkownika(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT rola FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()
+    cnx.close()
+    if result:
+        return result[0]
+    else:
+        return None
 
 
 # Funkcja sprawdzająca dane logowania w bazie danych
