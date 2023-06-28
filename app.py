@@ -159,6 +159,7 @@ def wyloguj():
     # Usunięcie flagi zalogowania z sesji
     session.pop('zalogowany', None)
     session.pop('user_id', None)  # Usunięcie również user_id z sesji
+    session.pop('rola', None) #usunięcie roli z sesji
     return redirect(url_for('logowanie'))
 
 @app.route('/', methods=['GET', 'POST'])
