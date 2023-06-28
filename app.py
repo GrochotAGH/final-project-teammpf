@@ -15,6 +15,10 @@ db_config = {
 }
 app.secret_key = 'super_secret_key'
 
+@app.route('/index.html')
+def przekierowanieZgloszenie():
+    return zgloszenie()
+
 @app.route('/rejestracja.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -62,8 +66,10 @@ def logowanie():
             session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
             return redirect(url_for('zgloszenie'))
         else:
-            return "Błędny login lub hasło"
-    return render_template('logowanie.html')
+            session['komunikat'] = 'Nieprawidłowy login lub hasło'
+            return redirect(url_for('logowanie'))
+    komunikat = session.pop('komunikat', None)
+    return render_template('logowanie.html', komunikat=komunikat)
 
 # Funkcja pomocnicza do pobierania user_id z bazy danych na podstawie loginu
 def pobierz_user_id(login):
@@ -124,25 +130,30 @@ def wyloguj():
     return redirect(url_for('logowanie'))
     
 
+# <<<<<<< HEAD
+# =======
+# <<<<<<< Updated upstream
+# =======
+# >>>>>>> main
 @app.route('/rejestracja.html')
 def rejestracja():
     return render_template('rejestracja.html')
 
-@app.route('/logowanie.html')
-def logowanie():
-    return render_template('logowanie.html')
-
+# >>>>>>> main
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
     if request.method == 'POST':
-        opis_sprawcy = request.form['sprawca']
+        #opis_sprawcy = request.form['sprawca']
         opis = request.form['opis']
         liczba_sprawcow = request.form['liczba']
-        miejsce = request.form['miejsce']
         godzina = request.form['godzina']
-
-        
+        data = request.form['data']
+        adres = request.form['location-input']
+        numer_lokalu = request.form['numer_lokalu']
+        miasto = request.form['locality-input']
+        wojewodztwo = request.form['administrative_area_level_1-input']
+        kod_pocztowy = request.form['postal_code-input']
         # Pobranie aktualnej daty i godziny
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
@@ -170,16 +181,17 @@ def zgloszenie():
             zgloszenie_id = cursor.lastrowid
 
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
-            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, miejsce_zdarzenia, godzina_zdarzenia) " \
-                        "VALUES (%s, %s, %s, %s, %s, %s)"
-            insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, miejsce, godzina)
+            insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, adres, godzina_zdarzenia, data_zdarzenia, numer_lokalu, miasto, wojewodztwo, kod_pocztowy) " \
+                        "VALUES (%s, NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            insert_values = (zgloszenie_id, opis, liczba_sprawcow, adres, godzina, data, numer_lokalu, miasto, wojewodztwo, kod_pocztowy)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
+
             # Wstawienie danych do tabeli sprawcy
             insert_query = "INSERT INTO sprawcy (zgloszenie_id, imie, nazwisko, data_urodzenia, opis) " \
-                        "VALUES (%s, '', '', NULL, %s)"
-            insert_values = (zgloszenie_id, opis_sprawcy)
+                         "VALUES (%s, '', '', NULL, '')"
+            insert_values = (zgloszenie_id,)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 

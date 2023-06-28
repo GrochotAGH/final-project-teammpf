@@ -5,6 +5,8 @@ html {
     box-sizing: border-box;  
     min-height: 100vh;
     flex-direction: column;
+    font-family: Calibri;
+    color: black;
 }
 body {
     display: flex;
@@ -19,59 +21,134 @@ p {
 }
 *, *:before, *:after {
     box-sizing: inherit;
-    font-family: Calibri;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: lighter;
     text-decoration: none;
-    color: black;
 }
 header {
     display: flex; /* or inline-flex */
     flex-direction: row;
     padding: 30px;
-    align-items: baseline;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+#header{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+.important{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
 }
 #menu {
     display: none;
 }
 nav{
-    flex-grow: 2;
-    align-self: flex-start;
+    /* flex-grow: 2; */
+    /* align-self: flex-end; */
     display: flex;
     justify-content: flex-end;
     column-gap: 75px;
-    padding-right: 30px;
+    padding-right: 200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: grey;
 }
 main {
     display: flex; /* or inline-flex */
-    flex-direction: row;
-    padding: 15px;
+    flex-direction: column;
+    
+    align-items: flex-start;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 200px;
+    padding-right: 200px;
+    gap: 20px;
 
 }
-/* próba dekorowania przycisku */
-#rejestracja{
-    flex-grow: 2;
-    align-self: flex-start;
+#mainlog{
     display: flex;
-    justify-content: flex-end;
-    column-gap: 75px;
-    padding-right: 30px;
+    flex-direction: column;
+    align-items: center;
+}
+#log{
+    font-family: Calibri;
+    font-size: 34px;
+    font-weight: 500;
 }
 
 .title {
     margin-left: 15px;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 46px;
+    margin-bottom: 0px;
+}
+h5{
+    margin-top: 5px;
+}
+a{
+    color: white;
+}
+#link1, #link2{
+ color: white;
+ font-weight: 600;
+}
+#link3{
+    color: black;
+    font-weight: 600;
 }
 #div {
     display: flex;
     flex-grow: 1;
+    color: white;
 }
-#uwaga{
-border-style: solid;
-border-color: red;
-font-size: 20px;
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formularz{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 90px 60px;
+}
+#button {
+  height: 40px;
+  width: 40%;
+  background: #54a444;
+  color: white;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-family: Calibri, sans-serif;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
+  cursor: pointer;
+}
+.sb-title-icon{
+    width: 30px;
+    height: 30px;
+}
+.info-icon{
+    width: 55px;
+    height: 55px;
+}
+textarea{
+    font-size: 16px;
+    font-family: Calibri;
+}
+.sign{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
 }
 footer {
     display: flex; /* or inline-flex */
@@ -87,6 +164,7 @@ footer {
 }
 #footer{
     color:white;
+    font-size: 16px;
 }
 
 @media all and (max-width: 900px) {
