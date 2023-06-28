@@ -139,14 +139,7 @@ def wyloguj():
 def rejestracja():
     return render_template('rejestracja.html')
 
-<<<<<<< Updated upstream
 # >>>>>>> main
-=======
-# @app.route('/logowanie.html')
-# def logowanie():
-#     return render_template('logowanie.html')
-
->>>>>>> Stashed changes
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
