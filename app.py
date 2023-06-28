@@ -31,8 +31,8 @@ def register():
         email = request.form['email']
         login = request.form['login']
         haslo = request.form['hasło']
-        rola = request.form['rola']
-
+        rola = 'cywil'
+        
         haslo = haslo.encode('utf-8')
         haslo = hashlib.sha256(haslo).hexdigest()
         # Dodanie danych do tabeli użytkownicy
