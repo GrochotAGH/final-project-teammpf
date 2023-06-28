@@ -16,14 +16,15 @@ db_config = {
 app.secret_key = 'super_secret_key'
 
 
-
-
 @app.route('/index.html')
 def przekierowanieZgloszenie():
-    if session['rola']=='funkcjonariusz':
-        return przegladanie()
-    else:
-        return zgloszenie()
+    try:
+        if session['rola']=='funkcjonariusz':
+            return render_template('przegladanie.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+        else:
+            return render_template('index.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+    except:
+        return render_template('index.html')
     
 
 @app.route('/przegladanie.html')
