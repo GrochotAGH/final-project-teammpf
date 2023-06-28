@@ -19,6 +19,9 @@ app.secret_key = 'super_secret_key'
 def przekierowanieZgloszenie():
     return zgloszenie()
 
+
+
+
 @app.route('/rejestracja.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -130,13 +133,14 @@ def wyloguj():
     return redirect(url_for('logowanie'))
     
 
-<<<<<<< Updated upstream
-=======
 @app.route('/rejestracja.html')
 def rejestracja():
     return render_template('rejestracja.html')
 
->>>>>>> Stashed changes
+@app.route('/przegladanie.html')
+def przegladanie():
+    return render_template('przegladanie.html')
+
 # Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
