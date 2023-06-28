@@ -161,11 +161,11 @@ def wyloguj():
     return redirect(url_for('logowanie'))
 
 @app.route('/', methods=['GET', 'POST'])
-def przekierowanie():
-    if session.get('rola') == 'funkcjonariusz':
-        return redirect(url_for('przegladanie'))
-    else:
-        return redirect(url_for('zgloszenie'))
+# def przekierowanie():
+#     if session.get('rola') == 'funkcjonariusz':
+#         return redirect(url_for('przegladanie'))
+#     else:
+#         return redirect(url_for('zgloszenie'))
 def zgloszenie():
     if request.method == 'POST':
         #opis_sprawcy = request.form['sprawca']
