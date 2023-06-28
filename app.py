@@ -131,17 +131,7 @@ def wyloguj():
     session.pop('zalogowany', None)
     session.pop('user_id', None)  # Usunięcie również user_id z sesji
     return redirect(url_for('logowanie'))
-    
 
-@app.route('/rejestracja.html')
-def rejestracja():
-    return render_template('rejestracja.html')
-
-@app.route('/przegladanie.html')
-def przegladanie():
-    return render_template('przegladanie.html')
-
-# Obsługa żądania POST z formularza
 @app.route('/', methods=['GET', 'POST'])
 def zgloszenie():
     if request.method == 'POST':
