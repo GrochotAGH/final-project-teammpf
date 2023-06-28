@@ -27,6 +27,21 @@ def przekierowanieZgloszenie():
         return render_template('index.html')
     
 
+# funkcja do obsługi wyswietlania zgloszen
+
+@app.route('/zgloszenia.html', methods=['GET'])
+def zgloszenia():
+  cnx = mysql.connector.connect(**db_config)
+  data = request.args.get('data')
+  cursor = cnx.cursor()
+  cursor.execute("SELECT * FROM cechyzdarzenia WHERE data_zdarzenia = %s", (data,))
+  zgloszenia = cursor.fetchall()
+  return render_template('zgloszenia.html', zgloszenia=zgloszenia)
+
+
+
+
+
 @app.route('/przegladanie.html')
 def przegladanie():
     return render_template('przegladanie.html', zalogowany=session.get('zalogowany'), imie=session.get('imie'))

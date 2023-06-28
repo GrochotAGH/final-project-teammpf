@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>PawsOnDuty - wyszukiwanie</title>
+        <link rel="shortcut icon" href="static/logo.png"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+    </head>
+    <body>
+      {% if komunikat %}
+      <div class="komunikat">{{ komunikat }}</div>
+  {% endif %}
+  <header>
+      <a href = "index.html"><img src="static/logo.png" width="150" height="150"></a><br>
+      <img id="menu" src="static/menu.png" width="150" height="150">
+      <div id="header">
+      <a href = "index.html"><h1 class="title">PawsOnDuty</h1></a>
+      <h5>Powered by Core-Oho-Duh</h5>
+      </div>
+  </header>
+  <nav>
+
+    {% if zalogowany %}
+    <span>{{ imie }}</span>
+    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>  
+    {% else %}
+    <a id="link1" href=rejestracja.html>Zarejestruj się</a>
+    <a id="link2" href=logowanie.html>Zaloguj się</a>
+    {% endif %}
+  </nav>
+  <main id="mainlog">
+    {% if zgloszenia %}
+    <h1>Zgłoszenia dla wybranej daty: {{ zgloszenia[0][6] }}</h1>
+      <br>
+      {% if komunikat %}
+      <p style="color: red;">{{ komunikat }}</p>
+      {% endif %}            
+      <table class="zgloszenia">
+        <thead>
+            <tr>
+                <th>Opis sprawcy</th>
+                <th>Opis zdarzenia</th>
+                <th>Liczba sprawców</th>
+                <th>Zgłoszenie ID</th>
+                <th>Adres</th>
+                <th>Godzina zdarzenia</th>
+                <th>Data zdarzenia</th>
+                <th>Miasto</th>
+                <th>Województwo</th>
+                <th>Kod pocztowy</th>
+                <th>Numer lokalu</th>
+              </tr>
+        </thead>
+        <tbody>
+            {% for zgloszenie in zgloszenia %}
+            <tr>
+              <td>{{ zgloszenie[0] }}</td>
+              <td>{{ zgloszenie[1] }}</td>
+              <td>{{ zgloszenie[2] }}</td>
+              <td>{{ zgloszenie[3] }}</td>
+              <td>{{ zgloszenie[4] }}</td>
+              <td>{{ zgloszenie[5] }}</td>
+              <td>{{ zgloszenie[6] }}</td>
+              <td>{{ zgloszenie[7] }}</td>
+              <td>{{ zgloszenie[8] }}</td>
+              <td>{{ zgloszenie[9] }}</td>
+              <td>{{ zgloszenie[10] }}</td>
+              <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
+                <a href="#" class="zmien-status">{{ zgloszenie[11] }}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+        {% else %}
+        <p>Brak zgłoszeń dla wybranej daty.</p>
+        {% endif %}
+		</main>
+		<div id="div"></div>
+		<footer>
+			<p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>
+			<p id="footer">© Maria Mostek, Patrycja Ruda, Filip Kuś. Kraków 2023.</p>
+		</footer>
+    </body>
+</html>
