@@ -1,3 +1,16 @@
+.tooltip {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 13px;
+    border-style: solid;
+    border-width: thin;
+    border-color: white;
+  }
 html {
     display: flex;
     margin: 0px;
@@ -58,10 +71,97 @@ main {
     display: flex;
     flex-grow: 1;
 }
-#uwaga{
-border-style: solid;
-border-color: red;
-font-size: 20px;
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+  .sign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    text-align: right;
+    margin-right: 10px;
+    flex: 0 0 100px; /* Szerokość etykiety */
+  }
+  
+  input {
+    flex: 1; /* Rozciąga pole formularza, aby wypełnić dostępną przestrzeń */
+  }
+
+  .zgloszenia {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+  
+  thead {
+    background-color: #f9f9f9;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tr:hover {
+    background-color: #e9e9e9;
+  }
+
+.formularz{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 90px 60px;
+}
+.button {
+  height: 40px;
+  width: 50%;
+  padding: 10px 20px;
+  background: #54a444;
+  color: white;
+  font-size: 17px;
+  text-transform: uppercase;
+  font-family: Calibri, sans-serif;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
+  cursor: pointer;
+}
+#button1{
+width: 20%
+}
+
+.sb-title-icon{
+    width: 30px;
+    height: 30px;
+}
+.info-icon{
+    width: 55px;
+    height: 55px;
+}
+textarea{
+    font-size: 16px;
+    font-family: Calibri;
+}
+.sign{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
 }
 footer {
     display: flex; /* or inline-flex */
@@ -78,6 +178,10 @@ footer {
 #footer{
     color:white;
 }
+#emailLabel{
+white-space: nowrap;
+width: 100px;
+}
 
 @media all and (max-width: 900px) {
 main {
@@ -92,4 +196,7 @@ nav{
 #menu{
     display: block;
 }
+#button1{
+    width: 40%;
+  }
 }
