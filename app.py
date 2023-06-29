@@ -36,7 +36,7 @@ def zgloszenia():
   cursor = cnx.cursor()
   cursor.execute("SELECT * FROM cechyzdarzenia WHERE data_zdarzenia = %s", (data,))
   zgloszenia = cursor.fetchall()
-  return render_template('zgloszenia.html', zgloszenia=zgloszenia)
+  return render_template('zgloszenia.html', zgloszenia=zgloszenia, zalogowany=session.get('zalogowany'), imie=session.get('imie'))
 
 
 
