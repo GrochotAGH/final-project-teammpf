@@ -22,8 +22,7 @@
   <nav>
     {% if zalogowany %}
     <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>
-    <a href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>  
+    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>  
     {% else %}
     <a id="link1" href=rejestracja.html>Zarejestruj się</a>
     <a id="link2" href=logowanie.html>Zaloguj się</a>
