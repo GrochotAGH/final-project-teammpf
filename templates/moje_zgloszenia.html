@@ -22,8 +22,7 @@
   <nav>
     {% if zalogowany %}
     <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>
-    <a href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>  
+    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>  
     {% else %}
     <a id="link1" href=rejestracja.html>Zarejestruj się</a>
     <a id="link2" href=logowanie.html>Zaloguj się</a>
@@ -31,7 +30,7 @@
   </nav>
   <main id="mainlog">
     {% if zgloszenia %}
-    <h1 class="naglowek">Zgłoszenia dla wybranej daty: {{ zgloszenia[0][6] }}</h1>
+    <h1 class="naglowek">Moje zgłoszenia</h1>
       <br>
       {% if komunikat %}
       <p style="color: red;">{{ komunikat }}</p>
@@ -39,9 +38,8 @@
       <table class="zgloszenia">
         <thead>
             <tr>
-                <th>Opis sprawcy</th>
+  
                 <th>Opis zdarzenia</th>
-                <th>Liczba sprawców</th>
                 <th>Zgłoszenie ID</th>
                 <th>Adres</th>
                 <th>Godzina zdarzenia</th>
@@ -55,26 +53,23 @@
         <tbody>
             {% for zgloszenie in zgloszenia %}
             <tr>
-              <td>{{ zgloszenie[0] }}</td>
-              <td>{{ zgloszenie[1] }}</td>
               <td>{{ zgloszenie[2] }}</td>
+              <td>{{ zgloszenie[0] }}</td>
               <td>{{ zgloszenie[3] }}</td>
               <td>{{ zgloszenie[4] }}</td>
+              <td>{{ zgloszenie[1] }}</td>
               <td>{{ zgloszenie[5] }}</td>
               <td>{{ zgloszenie[6] }}</td>
               <td>{{ zgloszenie[7] }}</td>
               <td>{{ zgloszenie[8] }}</td>
-              <td>{{ zgloszenie[9] }}</td>
-              <td>{{ zgloszenie[10] }}</td>
-              <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
-                <a href="#" class="zmien-status">{{ zgloszenie[11] }}</a>
+              <td><a href="{{ url_for('moje_zgloszenia', zgloszenie_id=zgloszenie[0]) }}">Szczegóły</a></td>
               </td>
             </tr>
             {% endfor %}
           </tbody>
       </table>
         {% else %}
-        <p>Brak zgłoszeń dla wybranej daty.</p>
+        <p class="naglowek">Brak zgłoszeń dla wybranej daty.</p>
         {% endif %}
 		</main>
 		<div id="div"></div>

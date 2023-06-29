@@ -25,7 +25,8 @@
     <a id="link2" href=logowanie.html>Zaloguj się</a>
     {% else %}
     <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>            
+    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>
+    <a href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>            
     {% endif %}
 </nav>
 <main id="mainlog">

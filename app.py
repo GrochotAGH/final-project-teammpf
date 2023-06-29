@@ -40,6 +40,30 @@ def zgloszenia():
 
 
 
+@app.route('/moje_zgloszenia', methods=['GET'])
+def moje_zgloszenia():
+    if 'zalogowany' not in session or not session['zalogowany']:
+        return redirect(url_for('logowanie'))
+
+    user_id = session.get('user_id')
+
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT zg.zgloszenie_id, zg.data_zdarzenia, zg.opis_zdarzenia, zg.adres, zg.godzina_zdarzenia, " \
+        "zg.miasto, zg.wojewodztwo, zg.kod_pocztowy, zg.numer_lokalu " \
+        "FROM cechyzdarzenia zg " \
+        "INNER JOIN zgłoszenia z ON zg.zgloszenie_id = z.zgloszenie_id " \
+        "WHERE z.user_id = %s " \
+        "ORDER BY zg.data_zdarzenia DESC"
+    cursor.execute(query, (user_id,))
+    zgloszenia = cursor.fetchall()
+
+    return render_template('moje_zgloszenia.html', zgloszenia=zgloszenia, zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+
+
+
+
+
 
 
 @app.route('/przegladanie.html')

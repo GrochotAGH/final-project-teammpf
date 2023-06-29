@@ -246,3 +246,11 @@ nav, h5{
     width: 40%;
   }
 }
+
+.naglowek {
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+  }
