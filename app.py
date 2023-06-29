@@ -60,6 +60,12 @@ def register():
 
         haslo = haslo.encode('utf-8')
         haslo = hashlib.sha256(haslo).hexdigest()
+        
+        # Sprawdzenie, czy login już istnieje w bazie danych
+        if login_istnieje(login):
+            session['error_message'] = 'Podany login już istnieje'
+            return redirect(url_for('register'))
+        
         # Dodanie danych do tabeli użytkownicy
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
@@ -73,7 +79,14 @@ def register():
     # Renderowanie szablonu formularza rejestracji
     return render_template('rejestracja.html')
 
-
+def login_istnieje(login):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT COUNT(*) FROM `użytkownicy` WHERE `login` = %s"
+    cursor.execute(query, (login,))
+    result = cursor.fetchone()[0]
+    cnx.close()
+    return result > 0
 
 @app.route('/logowanie.html', methods=['GET', 'POST'])
 def logowanie():

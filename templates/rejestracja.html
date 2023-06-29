@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
 </head>
 <body>
-    {% if komunikat %}
-    <div class="komunikat">{{ komunikat }}</div>
+    {% if 'error_message' in session %}
+    <div class="error-message">{{ session['error_message'] }}</div>
+    {% set _ = session.pop('error_message', None) %}
     {% endif %}
+
 <header>
     <a href = "index.html"><img src="static/logo.png" width="150" height="150"></a><br>
     <img id="menu" src="static/menu.png" width="75" height="75">
