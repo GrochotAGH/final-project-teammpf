@@ -141,10 +141,10 @@ form{
     margin-right: 10px;
     flex: 0 0 100px; /* Szerokość etykiety */
   }
-  
+/*   
   input {
-    flex: 1; /* Rozciąga pole formularza, aby wypełnić dostępną przestrzeń */
-  }
+    flex: 1; /* Rozciąga pole formularza, aby wypełnić dostępną przestrzeń
+  } */
 
   .zgloszenia {
     width: 100%;
@@ -262,6 +262,11 @@ nav, h5{
 #button1{
     width: 40%;
   }
+  .formularz{
+    flex-direction: column;
+    align-items: center;
+    gap: 20px 10px;
+}
 }
 
 .naglowek {
