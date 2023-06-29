@@ -167,23 +167,25 @@
             <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" min="0" required><br><br>
             <div id="divek"></div>
             <script> 
-                function areas()
-                {
-    
-                    // var box = document.createElement('div')
-                    var inputValue = document.getElementById("liczba").value;
-                    document.getElementById("divek").innerHTML = inputValue;
-                    for(var i = 1; i <= inputValue; i++){
-                        var textarea = document.createElement('textarea');
-                        var br = document.createElement('br');
-                        textarea.setAttribute("placeholder", "W tym miejscu opisz "+ i +". sprawcę...")
-                        textarea.setAttribute("id", "sprawca" + i)
-                        divek.appendChild(textarea);
-                        divek.appendChild(br);
-                    }
-                    setTimeout("areas()", 1);
-                }
-            </script>
+              function areas() {
+                  var inputValue = document.getElementById("liczba").value;
+                  var divek = document.getElementById("divek");
+                  divek.innerHTML = ""; // Wyczyszczenie zawartości divek przed dodaniem nowych pól tekstowych
+          
+                  for (var i = 1; i <= inputValue; i++) {
+                      var textarea = document.createElement('textarea');
+                      var br = document.createElement('br');
+                      textarea.setAttribute("placeholder", "W tym miejscu opisz " + i + ". sprawcę...");
+                      textarea.setAttribute("id", "sprawca" + i);
+                      divek.appendChild(textarea);
+                      divek.appendChild(br);
+                  }
+              }
+          
+              // Wywołanie funkcji areas() przy zmianie wartości pola liczba
+              document.getElementById("liczba").addEventListener("input", areas);
+          </script>
+          
         </div> 
     </div>
         <br><br><input id="button1" class="button" type="submit" value="Wyślij zgłoszenie">
