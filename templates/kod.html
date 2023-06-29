@@ -36,14 +36,16 @@
 
       .card-container {
         display: flex;
-        height: 300px;
-        width: 900px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        /* height: 300px;
+        width: 900px; */
       }
 
       .panel {
         background: white;
-        width: 300px;
-        padding: 20px;
+        /* width: 300px;
+        padding: 20px; */
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -55,7 +57,7 @@
       }
 
       .half-input {
-        max-width: 120px;
+        /* max-width: 120px; */
       }
 
       .map {
@@ -83,6 +85,22 @@
       input:focus::placeholder {
         color: white;
       }
+      @media all and (max-width: 900px) {
+.card-container{
+    /* flex-direction: column; */
+}
+.map
+{
+width: 400px;
+}
+#kontrola
+{
+  height: 400px;
+}
+#button1{
+  width: 50%;
+}
+}
       
     </style>
     <script>
@@ -184,6 +202,7 @@
         <button class="button-cta">Ok</button>
       </div>
       <div class="map" id="gmp-map"></div>
+      <div id="kontrola"></div>
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAum8iT83b1MrAEQaLt0joIK6Rdb-3uqWE&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
   </body>

@@ -16,6 +16,8 @@ body {
 
 .card-container {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   height: 300px;
   width: 900px;
 }
@@ -27,6 +29,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 300px;
+  width: 300px;
 }
 
 .half-input-container {
@@ -39,6 +43,7 @@ body {
 }
 
 .map {
+  height: 300px;
   width: 800px;
 }
 
@@ -63,17 +68,14 @@ input {
 input:focus::placeholder {
   color: white;
 }
+@media all and (max-width: 900px) {
+  .map
+  {
+  width: 500px;
+  }
+  #kontrola
+  {
+    height: 400px;
+  }
+  }
 
-/* .button-cta {
-  height: 40px;
-  width: 40%;
-  background: #3367d6;
-  color: white;
-  font-size: 15px;
-  text-transform: uppercase;
-  font-family: Roboto, sans-serif;
-  border: 0;
-  border-radius: 3px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
-  cursor: pointer;
-} */

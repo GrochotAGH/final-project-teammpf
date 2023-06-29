@@ -92,13 +92,13 @@
     }
 </script>
 </head>
-<body>
+<body onload="areas()">
     {% if komunikat %}
     <div class="komunikat">{{ komunikat }}</div>
 {% endif %}
 <header>
     <a href = ><img src="static/logo.png" width="150" height="150"></a><br>
-    <img id="menu" src="static/menu.png" width="150" height="150">
+    <img id="menu" src="static/menu.png" width="75" height="75">
     <div id="header">
     <a href = ><h1 class="title">PawsOnDuty</h1></a>
     <h5>Powered by Core-Oho-Duh</h5>
@@ -129,7 +129,7 @@
     </div> <br>
     <form method="POST">
     <div class="formularz">
-        <div class="card-container">
+        <!-- <div class="card-container"> -->
             <div class="panel">
               <div>
                 <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
@@ -142,10 +142,10 @@
                 <input type="text" class="half-input" placeholder="Województwo" id="administrative_area_level_1-input" name = "administrative_area_level_1-input"/>
                 <input type="text" class="half-input" placeholder="Kod pocztowy" id="postal_code-input" name = "postal_code-input" pattern="[0-9]{2}-[0-9]{3}"/>
               </div>
-              <!-- <button class="button-cta">Ok</button> -->
             </div>
             <div class="map" id="gmp-map"></div>
-        </div> <br>
+            <div id="kontrola"></div>
+        <!-- </div> <br> -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAum8iT83b1MrAEQaLt0joIK6Rdb-3uqWE&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
         
         <div class="form">
@@ -158,16 +158,35 @@
         <div class="form">
             <img class="sb-title-icon" src="{{ url_for('static', filename='info.png') }}" alt="">
             <span class="sb-title">Opis zdarzenia</span><br><br>
-            <textarea placeholder="W tym miejscu opisz, co się stało..." id="opis" name="opis" rows="10" cols="80" required></textarea>
+            <textarea placeholder="W tym miejscu opisz, co się stało..." id="opis" name="opis" rows="10" cols="70" required></textarea>
         </div> <br>
 
         <div class="form">
             <img class="sb-title-icon" src="{{ url_for('static', filename='user.png') }}" alt="">
             <span class="sb-title">Sprawcy</span><br><br>
-            <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" required><br><br>
+            <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" min="0" required><br><br>
+            <div id="divek"></div>
+            <script> 
+                function areas()
+                {
+    
+                    // var box = document.createElement('div')
+                    var inputValue = document.getElementById("liczba").value;
+                    document.getElementById("divek").innerHTML = inputValue;
+                    for(var i = 1; i <= inputValue; i++){
+                        var textarea = document.createElement('textarea');
+                        var br = document.createElement('br');
+                        textarea.setAttribute("placeholder", "W tym miejscu opisz "+ i +". sprawcę...")
+                        textarea.setAttribute("id", "sprawca" + i)
+                        divek.appendChild(textarea);
+                        divek.appendChild(br);
+                    }
+                    setTimeout("areas()", 1);
+                }
+            </script>
         </div> 
     </div>
-        <br><br><input id="button" type="submit" value="Wyślij zgłoszenie">
+        <br><br><input id="button1" class="button" type="submit" value="Wyślij zgłoszenie">
     </form>
 </main>
 <div id="div"></div>

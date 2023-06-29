@@ -133,11 +133,6 @@ form{
     flex: 1; /* Rozciąga pole formularza, aby wypełnić dostępną przestrzeń */
   }
 
-
-
-
-
-
   .zgloszenia {
     width: 100%;
     border-collapse: collapse;
@@ -165,25 +160,19 @@ form{
     background-color: #e9e9e9;
   }
 
-
-
-
-
-
-
-
 .formularz{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 90px 60px;
 }
-#button {
+.button {
   height: 40px;
-  width: 40%;
+  width: 50%;
+  padding: 10px 20px;
   background: #54a444;
   color: white;
-  font-size: 15px;
+  font-size: 17px;
   text-transform: uppercase;
   font-family: Calibri, sans-serif;
   border: 0;
@@ -191,6 +180,10 @@ form{
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
   cursor: pointer;
 }
+#button1{
+width: 20%
+}
+
 .sb-title-icon{
     width: 30px;
     height: 30px;
@@ -219,23 +212,37 @@ footer {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 #footer{
     color:white;
     font-size: 16px;
+    text-align: center;
 }
 
 @media all and (max-width: 900px) {
 main {
     flex-wrap: wrap;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+header{
+    justify-content: space-around;
+}
+#header{
+    display: none;
 }
 .title{
     display: none;
 }
-nav{
+nav, h5{
     display: none;
 }
 #menu{
     display: block;
 }
+#button1{
+    width: 40%;
+  }
 }
