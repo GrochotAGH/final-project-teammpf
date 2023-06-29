@@ -12,20 +12,20 @@
       <div class="komunikat">{{ komunikat }}</div>
   {% endif %}
   <header>
-      <a href = "index.html"><img src="static/logo.png" width="150" height="150"></a><br>
-      <img id="menu" src="static/menu.png" width="150" height="150">
+      <a href = "index.html"><img src="static/logo.png" class="has-tooltip" data-tooltip="Przejdź do strony głównej" width="150" height="150"></a><br>
+      <img id="menu" src="static/menu.png"  width="150" height="150">
       <div id="header">
-      <a href = "index.html"><h1 class="title">PawsOnDuty</h1></a>
+      <a href = "index.html"><h1 class="title has-tooltip" data-tooltip="Przejdź do strony głównej">PawsOnDuty</h1></a>
       <h5>Powered by Core-Oho-Duh</h5>
       </div>
   </header>
   <nav>
     {% if zalogowany %}
     <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>  
+    <a href="{{ url_for('wyloguj') }}" class="has-tooltip" data-tooltip="Wyloguj się">Wyloguj się</a>  
     {% else %}
-    <a id="link1" href=rejestracja.html>Zarejestruj się</a>
-    <a id="link2" href=logowanie.html>Zaloguj się</a>
+    <a id="link1" href=rejestracja.html class="has-tooltip" data-tooltip="Zarejestruj się">Zarejestruj się</a>
+    <a id="link2" href=logowanie.html class="has-tooltip" data-tooltip="Zaloguj się">Zaloguj się</a>
     {% endif %}
   </nav>
   <main id="mainlog">
@@ -67,11 +67,11 @@
               <td>{{ zgloszenie[10] }}</td>
               <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
                 <select class="status-select" data-zgloszenie-id="{{ zgloszenie[6] }}">
-                    <option value="przyjęto">przyjęto</option>
-                    <option value="zindentyfikowano">zindentyfikowano</option>
-                    <option value="zakończono">zakończono</option>
-                    <option value="porzucono">porzucono</option>
-                </select>
+                  <option value="przyjęto">przyjęto</option>
+                  <option value="zindentyfikowano">zindentyfikowano</option>
+                  <option value="zakończono">zakończono</option>
+                  <option value="porzucono">porzucono</option>
+              </select>
               </td>
             </tr>
             {% endfor %}
@@ -80,7 +80,9 @@
         {% else %}
         <p>Brak zgłoszeń dla wybranej daty.</p>
         {% endif %}
-		</main>
+		</main><div class="tooltip"></div>
+    <!-- OBSŁUGA TOOLTIPÓW -->
+    <script src="{{ url_for('static', filename='js/tooltip.js') }}" alt=""></script> 
 		<div id="div"></div>
 		<footer>
 			<p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>

@@ -1,3 +1,16 @@
+.tooltip {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 13px;
+    border-style: solid;
+    border-width: thin;
+    border-color: white;
+  }
 html {
     display: flex;
     margin: 0px;
@@ -219,6 +232,10 @@ footer {
     color:white;
     font-size: 16px;
     text-align: center;
+}
+#emailLabel{
+white-space: nowrap;
+width: 100px;
 }
 
 @media all and (max-width: 900px) {

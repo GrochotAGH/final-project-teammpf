@@ -12,21 +12,21 @@
     <div class="komunikat">{{ komunikat }}</div>
     {% endif %}
 <header>
-    <a href = "index.html"><img src="static/logo.png" width="150" height="150"></a><br>
+    <a href = "index.html"><img src="static/logo.png" class="has-tooltip" data-tooltip="Przejdź do strony głównej" width="150" height="150"></a><br>
     <img id="menu" src="static/menu.png" width="75" height="75">
     <div id="header">
-      <a href = "index.html"><h1 class="title">PawsOnDuty</h1></a>
+      <a href = "index.html"><h1 class="title has-tooltip" data-tooltip="Przejdź do strony głównej">PawsOnDuty</h1></a>
       <h5>Powered by Core-Oho-Duh</h5>
     </div>
 </header>
 <nav>
     {% if not zalogowany %}
-    <a id="link1" href=rejestracja.html>Zarejestruj się</a>
-    <a id="link2" href=logowanie.html>Zaloguj się</a>
+    <a id="link1" href=rejestracja.html class="has-tooltip" data-tooltip="Zarejestruj się">Zarejestruj się</a>
+    <a id="link2" href=logowanie.html class="has-tooltip" data-tooltip="Zaloguj się">Zaloguj się</a>
     {% else %}
     <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}">Wyloguj</a>
-    <a href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>            
+    <a href="{{ url_for('wyloguj') }}" class="has-tooltip" data-tooltip="Wyloguj się">Wyloguj się</a>
+    <a href="{{ url_for('moje_zgloszenia') }}" class="has-tooltip" data-tooltip="Moje zgłoszenia">Moje zgłoszenia</a>            
     {% endif %}
 </nav>
 <main id="mainlog">
@@ -46,11 +46,13 @@
             <input type="password" id="hasło" name="hasło" required><br><br>
         </div>
         <br><br>
-        <input id="button" class="button" type="submit" value="Zaloguj się">
+        <input id="button" class="button" type="submit" value="Zaloguj się"><div class="tooltip"></div>
     </form>
     <br>
-    <div id="rejestracja">Nie masz konta?   <a id="link3" href=rejestracja.html>Zarejestruj się</a> </div> 
+    <div id="rejestracja">Nie masz konta?   <a id="link3" href=rejestracja.html class="has-tooltip" data-tooltip="Zarejestruj się">Zarejestruj się</a> </div> 
 </main>
+<!-- OBSŁUGA TOOLTIPÓW -->
+<script src="{{ url_for('static', filename='js/tooltip.js') }}" alt=""></script> 
 <div id="div"></div>
 <footer>
     <p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>

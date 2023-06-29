@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-.tooltip {
-  position: absolute;
-  z-index: 1;
-  display: none;
-  background-color: #000;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-</style>
-</head>
-<body>
-
-<div class="has-tooltip" data-tooltip="Tooltip 1">Element 1</div>
-<div class="has-tooltip" data-tooltip="Tooltip 2">Element 2</div>
-<div class="has-tooltip" data-tooltip="Tooltip 3">Element 3</div>
-
-<div class="tooltip"></div>
-
-<script>
 // Pobierz elementy
 var tooltip = document.querySelector('.tooltip');
 var targetElements = document.querySelectorAll('.has-tooltip');
@@ -40,15 +15,15 @@ targetElements.forEach(function(element) {
     // Ustaw timeout, aby pokazać tooltip po opóźnieniu
     timeout = setTimeout(function() {
       // Pobierz pozycję kursora
-      var x = event.clientX;
-      var y = event.clientY;
+      var x = event.clientX + 12;
+      var y = event.clientY + 16;
 
       // Ustaw pozycję i tekst tooltipa
       tooltip.style.display = 'block';
       tooltip.style.left = x + 'px';
       tooltip.style.top = y + 'px';
       tooltip.textContent = tooltipText;
-    }, 500); // 500 ms opóźnienia (możesz dostosować tę wartość)
+    }, 200); 
 
   });
 
@@ -58,7 +33,3 @@ targetElements.forEach(function(element) {
     tooltip.style.display = 'none';
   });
 });
-</script>
-
-</body>
-</html>
