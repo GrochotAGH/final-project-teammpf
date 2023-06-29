@@ -231,13 +231,16 @@ def zgloszenie():
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
-
+            liczba_sprawcow = int(liczba_sprawcow)
             # Wstawienie danych do tabeli sprawcy
-            insert_query = "INSERT INTO sprawcy (zgloszenie_id, imie, nazwisko, data_urodzenia, opis) " \
-                         "VALUES (%s, '', '', NULL, '')"
-            insert_values = (zgloszenie_id,)
-            cursor.execute(insert_query, insert_values)
-            cnx.commit()
+            for i in range(1, liczba_sprawcow+1):
+                index = 'sprawca'+str(i)
+                opis = request.form[index]
+                insert_query = "INSERT INTO sprawcy (zgloszenie_id, imie, nazwisko, data_urodzenia, opis) " \
+                            "VALUES (%s, '', '', NULL, %s)"
+                insert_values = (zgloszenie_id, opis)
+                cursor.execute(insert_query, insert_values)
+                cnx.commit()
 
             # Zapisanie komunikatu do sesji
             session['komunikat'] = 'Dziękujemy za przesłanie zgłoszenia'
