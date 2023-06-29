@@ -66,7 +66,12 @@
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
               <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
-                <a href="#" class="zmien-status">{{ zgloszenie[11] }}</a>
+                <select class="status-select" data-zgloszenie-id="{{ zgloszenie[6] }}">
+                    <option value="przyjęto">przyjęto</option>
+                    <option value="zindentyfikowano">zindentyfikowano</option>
+                    <option value="zakończono">zakończono</option>
+                    <option value="porzucono">porzucono</option>
+                </select>
               </td>
             </tr>
             {% endfor %}
