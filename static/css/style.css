@@ -60,12 +60,12 @@ header {
     align-items: center;
     gap: 20px;
 }
-#menu {
-    display: none;
+#menu 
+{ display: none; 
+height: 75px;
+width: 75px;
 }
 nav{
-    /* flex-grow: 2; */
-    /* align-self: flex-end; */
     display: flex;
     justify-content: flex-end;
     column-gap: 75px;
@@ -77,14 +77,12 @@ nav{
 main {
     display: flex; /* or inline-flex */
     flex-direction: column;
-    
     align-items: flex-start;
     padding-top: 25px;
     padding-bottom: 25px;
     padding-left: 200px;
     padding-right: 200px;
     gap: 20px;
-
 }
 #mainlog{
     display: flex;
@@ -96,22 +94,21 @@ main {
     font-size: 34px;
     font-weight: 500;
 }
-
 .title {
     margin-left: 15px;
     font-weight: bold;
     font-size: 46px;
     margin-bottom: 0px;
 }
-h5{
-    margin-top: 5px;
-}
-a{
-    color: white;
-}
+h5 { margin-top: 5px; }
+a { color: white; }
 #link1, #link2{
  color: white;
  font-weight: 600;
+}
+#name{
+    color: black;
+    font-weight: 600;
 }
 #link3{
     color: black;
@@ -128,7 +125,6 @@ form{
     align-items: center;
     text-align: center;
 }
-
   .sign {
     display: flex;
     align-items: center;
@@ -145,34 +141,27 @@ form{
   input {
     flex: 1; /* Rozciąga pole formularza, aby wypełnić dostępną przestrzeń
   } */
-
   .zgloszenia {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #ddd;
   }
-  
   thead {
     background-color: #f9f9f9;
   }
-  
   th, td {
     padding: 8px;
     text-align: left;
   }
-  
   th {
     font-weight: bold;
   }
-  
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
-  
   tr:hover {
     background-color: #e9e9e9;
   }
-
 .formularz{
     display: flex;
     flex-wrap: wrap;
@@ -193,10 +182,7 @@ form{
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
   cursor: pointer;
 }
-#button1{
-width: 20%
-}
-
+#button1 { width: 20% }
 .sb-title-icon{
     width: 30px;
     height: 30px;
@@ -237,6 +223,72 @@ footer {
 white-space: nowrap;
 width: 100px;
 }
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidebar a, .bar {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 50px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  #bar{
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  #baroption{
+    font-size: 30px;
+  }
+  #barname{
+    color: white;
+    font-size: 30px;
+    font-weight: medium;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+.titleicon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+  
+  .openbtn:hover {
+    background-color: #444;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  #search{
+    width: 300px;
+  }
 
 @media all and (max-width: 900px) {
 main {
@@ -244,29 +296,17 @@ main {
     padding-left: 10px;
     padding-right: 10px;
 }
-header{
-    justify-content: space-around;
-}
-#header{
-    display: none;
-}
-.title{
-    display: none;
-}
-nav, h5{
-    display: none;
-}
-#menu{
-    display: block;
-}
-#button1{
-    width: 40%;
-  }
-  .formularz{
+header{ justify-content: space-around; }
+nav, h5, #header, .title { display: none; }
+#menu { display: block; }
+#button1 { width: 40%; }
+.formularz {
     flex-direction: column;
     align-items: center;
     gap: 20px 10px;
 }
+.sidebar {padding-top: 15px;}
+.sidebar a {font-size: 18px;}
 }
 
 .naglowek {

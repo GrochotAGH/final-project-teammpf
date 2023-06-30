@@ -8,12 +8,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
     </head>
     <body>
+      <body>
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <br><br>
+          <br><br>
+          <a class="bar" id="bar" href="index.html">PawsOnDuty</a>
+          <br><br>
+          {% if zalogowany %}
+          <a class ="bar" id="barname">{{ imie }}</span>
+            <br><br>
+          <a id="baroption" href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>
+          <a id="baroption" href="{{ url_for('wyloguj') }}">Wyloguj się</a>
+          {% else %}
+          <a id="baroption" href=rejestracja.html>Zarejestruj się</a>
+          <a id="baroption" href=logowanie.html>Zaloguj się</a>
+          {% endif %}
+        </div>
       {% if komunikat %}
       <div class="komunikat">{{ komunikat }}</div>
   {% endif %}
   <header>
-      <a href = "index.html"><img src="static/logo.png" class="has-tooltip" data-tooltip="Przejdź do strony głównej" width="150" height="150"></a><br>
-      <img id="menu" src="static/menu.png"  width="150" height="150">
+     <a href = "index.html"><img class="has-tooltip" data-tooltip="Przejdź do strony głównej" src="static/logo.png" width="150" height="150"></a><br>
+      <img id="menu" src="static/menu.png" onclick="openNav()">
+          <!-- OBSŁUGA SIDEBAR MENU -->
+          <script src="{{ url_for('static', filename='js/sidebar.js') }}" alt=""></script>
       <div id="header">
       <a href = "index.html"><h1 class="title has-tooltip" data-tooltip="Przejdź do strony głównej">PawsOnDuty</h1></a>
       <h5>Powered by Core-Oho-Duh</h5>
@@ -21,8 +40,9 @@
   </header>
   <nav>
     {% if zalogowany %}
-    <span>{{ imie }}</span>
-    <a href="{{ url_for('wyloguj') }}" class="has-tooltip" data-tooltip="Wyloguj się">Wyloguj się</a>  
+    <span id="name">{{ imie }}</span>
+    <a id="link1" href="{{ url_for('moje_zgloszenia') }}" class="has-tooltip" data-tooltip="Moje zgłoszenia">Moje zgłoszenia</a> 
+    <a id="link2" href="{{ url_for('wyloguj') }}" class="has-tooltip" data-tooltip="Wyloguj się">Wyloguj się</a>  
     {% else %}
     <a id="link1" href=rejestracja.html class="has-tooltip" data-tooltip="Zarejestruj się">Zarejestruj się</a>
     <a id="link2" href=logowanie.html class="has-tooltip" data-tooltip="Zaloguj się">Zaloguj się</a>
@@ -30,7 +50,7 @@
   </nav>
   <main id="mainlog">
     {% if zgloszenia %}
-    <h1 class="naglowek">Moje zgłoszenia</h1>
+    <h1 id="log">Moje zgłoszenia</h1>
       <br>
       {% if komunikat %}
       <p style="color: red;">{{ komunikat }}</p>
@@ -70,9 +90,12 @@
         {% else %}
         <p class="naglowek">Brak zgłoszeń dla wybranej daty.</p>
         {% endif %}
+        <br><br>
+        <div><a id="link3" href=rejestracja.html class="has-tooltip" data-tooltip="Wróć do strony głównej">Wróć do strony głównej</a> </div> 
 		</main> <div class="tooltip"></div>
     <!-- OBSŁUGA TOOLTIPÓW --> 
   <script src="{{ url_for('static', filename='js/tooltip.js') }}" alt=""></script> 
+
 		<div id="div"></div>
 		<footer>
 			<p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>
