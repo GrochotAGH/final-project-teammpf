@@ -10,12 +10,31 @@
     <script src="{{ url_for('static', filename='js/mapscript.js') }}" alt=""></script>
 </head>
 <body onload="areas()">
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <br><br>
+        <br><br>
+        <a class="bar" id="bar" href="index.html">PawsOnDuty</a>
+        <br><br>
+        {% if not zalogowany %}
+        <a id="baroption" href="rejestracja.html">Zarejestruj się</a>
+        <a id="baroption" href="logowanie.html">Zaloguj się</a>
+        {% else %}
+        <a class ="bar" id="barname">{{ imie }}</span>
+        <br><br>
+        <a id="baroption" href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>
+        <a id="baroption" href="{{ url_for('wyloguj') }}">Wyloguj się</a>
+
+        {% endif %}
+      </div>
     {% if komunikat %}
     <div class="komunikat">{{ komunikat }}</div>
 {% endif %}
 <header>
    <a href = ><img class="has-tooltip" data-tooltip="Przejdź do strony głównej" src="static/logo.png" width="150" height="150"></a><br>
-    <img id="menu" src="static/menu.png" width="75" height="75">
+    <img id="menu" src="static/menu.png" onclick="openNav()">
+        <!-- OBSŁUGA SIDEBAR MENU -->
+        <script src="{{ url_for('static', filename='js/sidebar.js') }}" alt=""></script>
     <div id="header">
     <a href = ><h1 class="title has-tooltip" data-tooltip="Przejdź do strony głównej">PawsOnDuty</h1></a> 
     <h5>Powered by Core-Oho-Duh</h5>
@@ -26,9 +45,9 @@
     <a id="link1" class="has-tooltip" data-tooltip="Zarejestruj się" href=rejestracja.html>Zarejestruj się</a>
     <a id="link2" class="has-tooltip" data-tooltip="Zaloguj się" href=logowanie.html>Zaloguj się</a>
     {% else %}
-    <span>{{ imie }}</span>
-    <a class="has-tooltip" data-tooltip="Wyloguj się" href="{{ url_for('wyloguj') }}">Wyloguj się</a>
-    <a class="has-tooltip" data-tooltip="Moje zgłoszenia" href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>   
+    <span id="name">{{ imie }}</span>
+    <a id="link2" class="has-tooltip" data-tooltip="Moje zgłoszenia" href="{{ url_for('moje_zgloszenia') }}">Moje zgłoszenia</a>   
+    <a id="link1" class="has-tooltip" data-tooltip="Wyloguj się" href="{{ url_for('wyloguj') }}">Wyloguj się</a>
     {% endif %}
 </nav>
 <main>
@@ -49,7 +68,7 @@
     <div class="formularz">
         <!-- <div class="card-container"> -->
             <div class="panel">
-              <div>
+              <div class="titleicon">
                 <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
                 <span class="sb-title">Miejsce</span>
               </div>
@@ -67,22 +86,31 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAum8iT83b1MrAEQaLt0joIK6Rdb-3uqWE&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
         
         <div class="form">
-            <img class="sb-title-icon" src="{{ url_for('static', filename='date.png') }}" alt="">
-            <span class="sb-title">Data i godzina</span><br><br>
+            <div class="titleicon">
+                <img class="sb-title-icon" src="{{ url_for('static', filename='date.png') }}" alt="">
+                <span class="sb-title">Data i godzina</span>
+            </div>
+            <br><br>
             <input type="date" placeholder="DD/MM/YYYY" onfocus="this.type='date'" onblur="this.type='text'" id="data" name="data" required><br><br><br>
             <input type="time" id="godzina" name="godzina" required>
         </div> <br>
 
         <div class="form">
-            <img class="sb-title-icon" src="{{ url_for('static', filename='info.png') }}" alt="">
-            <span class="sb-title">Opis zdarzenia</span><br><br>
+            <div class="titleicon">
+                <img class="sb-title-icon" src="{{ url_for('static', filename='info.png') }}" alt="">
+                <span class="sb-title">Opis zdarzenia</span>
+            </div>
+            <br><br>
             <textarea placeholder="W tym miejscu opisz, co się stało..." id="opis" name="opis" rows="10" cols="70" required></textarea>
         </div> <br>
 
         <div class="form">
-            <img class="sb-title-icon" src="{{ url_for('static', filename='user.png') }}" alt="">
-            <span class="sb-title">Sprawcy</span><br><br>
-            <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" min="0" required><br><br>
+            <div class="titleicon">
+                <img class="sb-title-icon" src="{{ url_for('static', filename='user.png') }}" alt="">
+                <span class="sb-title">Sprawcy</span>
+            </div>
+            <br><br>
+            <input placeholder="Liczba sprawców" type="number" id="liczba" name="liczba" min="0" max="10" oninput="this.value = Math.round(this.value);" required><br><br>
             <div id="divek"></div>
 
           <!-- OBSŁUGA DODAWANIA SPRAWCÓW -->
