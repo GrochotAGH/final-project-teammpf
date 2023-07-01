@@ -38,6 +38,27 @@ def zgloszenia():
   zgloszenia = cursor.fetchall()
   return render_template('zgloszenia.html', zgloszenia=zgloszenia, zalogowany=session.get('zalogowany'), imie=session.get('imie'))
 
+@app.route('/update_status', methods=['POST'])
+def update_status():
+    zgloszenie_id = request.json['zgloszenieId']
+    nazwa_tabeli = request.json['nazwaTabeli']
+    new_status = request.json['newStatus']
+    
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    
+    try:
+        update_query = f"UPDATE zgłoszenia SET status = %s WHERE data_zgloszenia = %s"
+        cursor.execute(update_query, (new_status, zgloszenie_id))
+        cnx.commit()
+        return 'OK', 200
+    except Exception as e:
+        print('Błąd podczas aktualizacji statusu:', e)
+        cnx.rollback()
+        return 'Błąd podczas aktualizacji statusu', 500
+    finally:
+        cursor.close()
+        cnx.close()
 
 
 @app.route('/moje_zgloszenia', methods=['GET'])

@@ -86,7 +86,7 @@
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
               <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
-                <select class="status-select" data-zgloszenie-id="{{ zgloszenie[6] }}">
+                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[6] }}">
                   <option value="przyjęto">przyjęto</option>
                   <option value="zindentyfikowano">zindentyfikowano</option>
                   <option value="zakończono">zakończono</option>
@@ -94,7 +94,8 @@
               </select>
               </td>
               <td>
-                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[6] }}')">Zatwierdź zmianę</button>
+                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[6] }}', '{{ zgloszenie[11] }}')">Zatwierdź zmianę</button>
+
             </td>
             </tr>
             {% endfor %}
@@ -109,6 +110,37 @@
     <!-- OBSŁUGA TOOLTIPÓW -->
     <script src="{{ url_for('static', filename='js/tooltip.js') }}" alt=""></script> 
 		<div id="div"></div>
+    <script>
+      function submitChanges(zgloszenieId, nazwaTabeli) {
+        const selectElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"] select`);
+        const newStatus = selectElement.value;
+        
+        fetch('/update_status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            zgloszenieId: zgloszenieId,
+            nazwaTabeli: nazwaTabeli,
+            newStatus: newStatus,
+          }),
+        })
+          .then(response => {
+            if (response.ok) {
+              // Aktualizacja statusu na stronie bez ponownego ładowania
+              const statusElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"]`);
+              statusElement.setAttribute('data-aktualny-status', newStatus);
+            } else {
+              console.error('Wystąpił błąd podczas aktualizacji statusu');
+            }
+          })
+          .catch(error => {
+            console.error('Wystąpił błąd podczas aktualizacji statusu', error);
+          });
+      }
+      </script>
+      
 		<footer>
 			<p id="footer">Aplikacja webowa stworzona jako projekt z kursu Języki Programowania Aplikacji Internetowych AGH.</p>
 			<p id="footer">© Maria Mostek, Patrycja Ruda, Filip Kuś. Kraków 2023.</p>
