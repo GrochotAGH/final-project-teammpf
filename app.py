@@ -41,14 +41,13 @@ def zgloszenia():
 @app.route('/update_status', methods=['POST'])
 def update_status():
     zgloszenie_id = request.json['zgloszenieId']
-    nazwa_tabeli = request.json['nazwaTabeli']
     new_status = request.json['newStatus']
     
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     
     try:
-        update_query = f"UPDATE zgłoszenia SET status = %s WHERE data_zgloszenia = %s"
+        update_query = f"UPDATE zgłoszenia SET status = %s WHERE zgloszenie_id = %s"
         cursor.execute(update_query, (new_status, zgloszenie_id))
         cnx.commit()
         return 'OK', 200

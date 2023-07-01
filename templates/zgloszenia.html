@@ -85,8 +85,8 @@
               <td>{{ zgloszenie[8] }}</td>
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
-              <td class="status" data-zgloszenie-id="{{ zgloszenie[6] }}" data-aktualny-status="{{ zgloszenie[6] }}">
-                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[6] }}">
+              <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[3] }}">
+                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}">
                   <option value="przyjęto">przyjęto</option>
                   <option value="zindentyfikowano">zindentyfikowano</option>
                   <option value="zakończono">zakończono</option>
@@ -94,7 +94,7 @@
               </select>
               </td>
               <td>
-                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[6] }}', '{{ zgloszenie[11] }}')">Zatwierdź zmianę</button>
+                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}', '{{ zgloszenie[11] }}')">Zatwierdź zmianę</button>
 
             </td>
             </tr>
