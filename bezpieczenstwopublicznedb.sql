@@ -170,6 +170,9 @@ ALTER TABLE `zgłoszenia`
   ADD CONSTRAINT `zgłoszenia_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `użytkownicy` (`user_id`);
 COMMIT;
 
+INSERT INTO użytkownicy (user_id, login, hasło, rola, email, imię, nazwisko) VALUES
+(NULL, 'paw2', '962136dc13fdb94292369ce2a234acb5cda21e8f2c30bb68d2b3c8444d8c6933', 'funkcjonariusz', 'pawpaw2@police.pl', 'Jan', 'Kowalski');
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
