@@ -69,6 +69,7 @@
                 <th>Województwo</th>
                 <th>Kod pocztowy</th>
                 <th>Numer lokalu</th>
+                <th>Status</th> <!-- Dodaj kolumnę status -->
               </tr>
         </thead>
         <tbody>
@@ -85,6 +86,7 @@
               <td>{{ zgloszenie[8] }}</td>
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
+               <td>{{ zgloszenie[11] }}</td> <!-- Wyświetl status -->
               <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[3] }}">
                 <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}">
                   <option value="przyjęto">przyjęto</option>

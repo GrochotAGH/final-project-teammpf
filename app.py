@@ -31,12 +31,13 @@ def przekierowanieZgloszenie():
 
 @app.route('/zgloszenia.html', methods=['GET'])
 def zgloszenia():
-  cnx = mysql.connector.connect(**db_config)
-  data = request.args.get('data')
-  cursor = cnx.cursor()
-  cursor.execute("SELECT * FROM cechyzdarzenia WHERE data_zdarzenia = %s", (data,))
-  zgloszenia = cursor.fetchall()
-  return render_template('zgloszenia.html', zgloszenia=zgloszenia, zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+    cnx = mysql.connector.connect(**db_config)
+    data = request.args.get('data')
+    cursor = cnx.cursor()
+    cursor.execute("SELECT cechyzdarzenia.*, zgłoszenia.status FROM cechyzdarzenia INNER JOIN zgłoszenia ON cechyzdarzenia.zgloszenie_id = zgłoszenia.zgloszenie_id WHERE cechyzdarzenia.data_zdarzenia = %s", (data,))
+    zgloszenia = cursor.fetchall()
+    return render_template('zgloszenia.html', zgloszenia=zgloszenia, komunikat=None, zalogowany=session.get('zalogowany'), imie=session.get('imie'))
+
 
 @app.route('/update_status', methods=['POST'])
 def update_status():
