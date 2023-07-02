@@ -100,7 +100,6 @@ function showFields(zgloszenieId) {
 }
                 </script>
     <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[11] }}">
-      {% if zgloszenie[11] != "przyjęto" %}
       <button class="edit-button" onclick="showFields('{{ zgloszenie[3] }}')">Edytuj</button>
       <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" style="display: none">
           <option value="przyjęto">przyjęto</option>
@@ -109,9 +108,6 @@ function showFields(zgloszenieId) {
           <option value="porzucono">porzucono</option>
       </select>
       <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}')" style="display: none">Zatwierdź zmianę</button>
-      {% else %}
-      <span>{{ zgloszenie[11] }}</span>
-      {% endif %}
   </td>
 </tr>
 {% endfor %}
