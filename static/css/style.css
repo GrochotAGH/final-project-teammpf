@@ -316,3 +316,38 @@ nav, h5, #header, .title { display: none; }
     text-align: center;
     padding: 10px;
   }
+
+  @media all and (max-width: 900px) {
+    table.zgloszenia {
+      width: 100%;
+    }
+  
+    table.zgloszenia thead {
+      display: none;
+    }
+  
+    table.zgloszenia tbody {
+      display: block;
+    }
+  
+    table.zgloszenia tbody tr {
+      display: block;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+    }
+  
+    table.zgloszenia tbody td {
+      display: block;
+      text-align: left;
+    }
+  }
+  .komunikat {
+    background-color: black;
+    color: #00ff0d;
+    padding: 10px;
+    text-align: middle;
+    display: flex;
+    justify-content: center;
+  }
