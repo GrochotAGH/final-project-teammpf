@@ -88,31 +88,33 @@
               <td>{{ zgloszenie[10] }}</td>
                <td>{{ zgloszenie[11] }}</td> <!-- Wyświetl status -->
                <script>
-                function showFields() {
-                  const editButton = document.getElementById("editButton");
-                  const selectElement = document.getElementById("statusSelect");
-                  const submitButton = document.getElementById("submitButton");
-                  
-                  editButton.style.display = "none";
-                  selectElement.style.display = "block";
-                  submitButton.style.display = "block";
-                }
-                </script>
-              <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[3] }}">
-                <button class="submit-button" id="editButton" onclick="showFields()">Edytuj</button>
-                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" id="statusSelect" style="display: none">
-                  <option value="przyjęto">przyjęto</option>
-                  <option value="zindentyfikowano">zindentyfikowano</option>
-                  <option value="zakończono">zakończono</option>
-                  <option value="porzucono">porzucono</option>
-              </select>
-              </td>
-              <td>
-                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}', '{{ zgloszenie[11] }}')" id = "submitButton" style="display: none">Zatwierdź zmianę</button>
+function showFields(zgloszenieId) {
+    const statusElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"]`);
+    const editButton = statusElement.querySelector('.edit-button');
+    const selectElement = statusElement.querySelector('.status-select');
+    const submitButton = statusElement.querySelector('.submit-button');
 
-            </td>
-            </tr>
-            {% endfor %}
+    editButton.style.display = "none";
+    selectElement.style.display = "block";
+    submitButton.style.display = "block";
+}
+                </script>
+    <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[11] }}">
+      {% if zgloszenie[11] != "przyjęto" %}
+      <button class="edit-button" onclick="showFields('{{ zgloszenie[3] }}')">Edytuj</button>
+      <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" style="display: none">
+          <option value="przyjęto">przyjęto</option>
+          <option value="zindentyfikowano">zindentyfikowano</option>
+          <option value="zakończono">zakończono</option>
+          <option value="porzucono">porzucono</option>
+      </select>
+      <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}')" style="display: none">Zatwierdź zmianę</button>
+      {% else %}
+      <span>{{ zgloszenie[11] }}</span>
+      {% endif %}
+  </td>
+</tr>
+{% endfor %}
           </tbody>
       </table>
         {% else %}
