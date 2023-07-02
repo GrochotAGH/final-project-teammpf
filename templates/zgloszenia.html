@@ -100,15 +100,20 @@ function showFields(zgloszenieId) {
 }
                 </script>
     <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[11] }}">
-      <button class="edit-button" onclick="showFields('{{ zgloszenie[3] }}')">Edytuj</button>
-      <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" style="display: none">
-          <option value="przyjęto">przyjęto</option>
-          <option value="zindentyfikowano">zindentyfikowano</option>
-          <option value="zakończono">zakończono</option>
-          <option value="porzucono">porzucono</option>
-      </select>
-      <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}')" style="display: none">Zatwierdź zmianę</button>
-  </td>
+      <div class="button-container">
+        <div>
+          <button class="edit-button" onclick="showFields('{{ zgloszenie[3] }}')">Edytuj</button>
+          <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" style="display: none">
+              <option value="przyjęto">przyjęto</option>
+              <option value="zindentyfikowano">zindentyfikowano</option>
+              <option value="zakończono">zakończono</option>
+              <option value="porzucono">porzucono</option>
+          </select>
+        </div>
+        <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}')" style="display: none">Zatwierdź</button>
+      </div>
+    </td>
+    
 </tr>
 {% endfor %}
           </tbody>

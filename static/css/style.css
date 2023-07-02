@@ -335,12 +335,13 @@ nav, h5, #header, .title { display: none; }
       margin-bottom: 20px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      padding: 10px;
+      padding: 10px; 
     }
   
     table.zgloszenia tbody td {
       display: block;
       text-align: left;
+      height: 90px;
     }
   }
   .komunikat {
@@ -350,4 +351,33 @@ nav, h5, #header, .title { display: none; }
     text-align: middle;
     display: flex;
     justify-content: center;
+  }
+  .submit-button, .edit-button {
+    height: 40px;
+    width: 120px;
+    padding: 10px 20px;
+    background: #0004ff;
+    color: white;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-family: Calibri, sans-serif;
+    border: 0;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48);
+    cursor: pointer;
+    margin-top: 5px;
+  }
+  .status {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    position: relative;
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .status-select{
+    width: 120px;
   }
