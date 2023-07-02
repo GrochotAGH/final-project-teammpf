@@ -71,7 +71,7 @@ def moje_zgloszenia():
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     query = "SELECT zg.zgloszenie_id, zg.data_zdarzenia, zg.opis_zdarzenia, zg.adres, zg.godzina_zdarzenia, " \
-        "zg.miasto, zg.wojewodztwo, zg.kod_pocztowy, zg.numer_lokalu " \
+        "zg.miasto, zg.wojewodztwo, zg.kod_pocztowy, zg.numer_lokalu, z.status " \
         "FROM cechyzdarzenia zg " \
         "INNER JOIN zgłoszenia z ON zg.zgloszenie_id = z.zgloszenie_id " \
         "WHERE z.user_id = %s " \
