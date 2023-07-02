@@ -69,6 +69,7 @@
                 <th>Województwo</th>
                 <th>Kod pocztowy</th>
                 <th>Numer lokalu</th>
+                <th>Status</th> <!-- Dodaj kolumnę status -->
               </tr>
         </thead>
         <tbody>
@@ -85,8 +86,21 @@
               <td>{{ zgloszenie[8] }}</td>
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
+               <td>{{ zgloszenie[11] }}</td> <!-- Wyświetl status -->
+               <script>
+                function showFields() {
+                  const editButton = document.getElementById("editButton");
+                  const selectElement = document.getElementById("statusSelect");
+                  const submitButton = document.getElementById("submitButton");
+                  
+                  editButton.style.display = "none";
+                  selectElement.style.display = "block";
+                  submitButton.style.display = "block";
+                }
+                </script>
               <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[3] }}">
-                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}">
+                <button class="submit-button" id="editButton" onclick="showFields()">Edytuj</button>
+                <select class="status-select" name="status" data-zgloszenie-id="{{ zgloszenie[3] }}" id="statusSelect" style="display: none">
                   <option value="przyjęto">przyjęto</option>
                   <option value="zindentyfikowano">zindentyfikowano</option>
                   <option value="zakończono">zakończono</option>
@@ -94,7 +108,7 @@
               </select>
               </td>
               <td>
-                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}', '{{ zgloszenie[11] }}')">Zatwierdź zmianę</button>
+                <button class="submit-button" onclick="submitChanges('{{ zgloszenie[3] }}', '{{ zgloszenie[11] }}')" id = "submitButton" style="display: none">Zatwierdź zmianę</button>
 
             </td>
             </tr>
