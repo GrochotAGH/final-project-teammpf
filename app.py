@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import mysql.connector
 from datetime import datetime
 import hashlib
+import time
 
 app = Flask(__name__)
 
@@ -153,6 +154,7 @@ def logowanie():
             session['zalogowany'] = True
             session['rola'] = rola
             session['imie'] = pobierz_imie_uzytkownika(login)  # Funkcja pobierz_imie_uzytkownika() powinna zwrócić imię użytkownika na podstawie loginu
+            session['komunikat'] = 'Logowanie udane'
             if rola == 'cywil':
                 return redirect(url_for('zgloszenie'))
             else:
