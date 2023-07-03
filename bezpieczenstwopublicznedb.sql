@@ -49,11 +49,8 @@ CREATE TABLE `cechyzdarzenia` (
 
 CREATE TABLE `sprawcy` (
   `sprawca_id` int(10) NOT NULL,
-  `zgloszenie_id` int(10) NOT NULL,
-  `imie` varchar(20) CHARACTER SET utf32 COLLATE utf32_polish_ci DEFAULT NULL,
-  `nazwisko` varchar(20) CHARACTER SET utf32 COLLATE utf32_polish_ci DEFAULT NULL,
-  `data_urodzenia` date DEFAULT NULL,
-  `opis` mediumtext CHARACTER SET utf32 COLLATE utf32_polish_ci NOT NULL
+  `zgloszenie_id` int(10) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
