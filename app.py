@@ -255,9 +255,11 @@ def zgloszenie():
         miasto = request.form['locality-input']
         wojewodztwo = request.form['administrative_area_level_1-input']
         kod_pocztowy = request.form['postal_code-input']
+        liczba_sprawcow = int(liczba_sprawcow)
         # Pobranie aktualnej daty i godziny
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
+        opis_sprawcy=''
 
                 # Sprawdzenie, czy użytkownik jest zalogowany
         if session.get('zalogowany'):
@@ -282,14 +284,22 @@ def zgloszenie():
             # Pobranie ostatnio wstawionego identyfikatora zgłoszenia
             zgloszenie_id = cursor.lastrowid
 
+
+            opis_sprawcy = ""  # Inicjalizacja zmiennej jako pusty łańcuch znaków
+
+            for i in range(1, liczba_sprawcow+1):
+                index = 'sprawca' + str(i)
+                opis_spr = request.form[index]
+                opis_sprawcy += "Sprawca " + str(i) + ": " + opis_spr + " "
+
             # Wstawienie danych do tabeli cechyzdarzenia z wykorzystaniem pobranego zgloszenie_id
             insert_query = "INSERT INTO cechyzdarzenia (zgloszenie_id, opis_sprawcy, opis_zdarzenia, liczba_sprawcow, adres, godzina_zdarzenia, data_zdarzenia, numer_lokalu, miasto, wojewodztwo, kod_pocztowy) " \
-                        "VALUES (%s, NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            insert_values = (zgloszenie_id, opis, liczba_sprawcow, adres, godzina, data, numer_lokalu, miasto, wojewodztwo, kod_pocztowy)
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            insert_values = (zgloszenie_id, opis_sprawcy, opis, liczba_sprawcow, adres, godzina, data, numer_lokalu, miasto, wojewodztwo, kod_pocztowy)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
 
-            liczba_sprawcow = int(liczba_sprawcow)
+
             # Wstawienie danych do tabeli sprawcy
             for i in range(1, liczba_sprawcow+1):
                 index = 'sprawca'+str(i)
