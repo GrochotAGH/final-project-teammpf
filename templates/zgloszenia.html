@@ -129,32 +129,39 @@ function showFields(zgloszenieId) {
 		<div id="div"></div>
     <script>
       function submitChanges(zgloszenieId, nazwaTabeli) {
-        const selectElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"] select`);
-        const newStatus = selectElement.value;
-        
-        fetch('/update_status', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            zgloszenieId: zgloszenieId,
-            nazwaTabeli: nazwaTabeli,
-            newStatus: newStatus,
-          }),
-        })
-          .then(response => {
-            if (response.ok) {
-              // Aktualizacja statusu na stronie bez ponownego ładowania
-              const statusElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"]`);
-              statusElement.setAttribute('data-aktualny-status', newStatus);
-            } else {
-              console.error('Wystąpił błąd podczas aktualizacji statusu');
-            }
+          const statusElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"]`);
+          const editButton = statusElement.querySelector('.edit-button');
+          const selectElement = statusElement.querySelector('.status-select');
+          const submitButton = statusElement.querySelector('.submit-button');
+      
+          const newStatus = selectElement.value;
+      
+          fetch('/update_status', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  zgloszenieId: zgloszenieId,
+                  nazwaTabeli: nazwaTabeli,
+                  newStatus: newStatus,
+              }),
           })
-          .catch(error => {
-            console.error('Wystąpił błąd podczas aktualizacji statusu', error);
-          });
+              .then(response => {
+                  if (response.ok) {
+                      // Aktualizacja statusu na stronie bez ponownego ładowania
+                      statusElement.setAttribute('data-aktualny-status', newStatus);
+                      // Zmiana widoczności elementów
+                      editButton.style.display = "block";
+                      selectElement.style.display = "none";
+                      submitButton.style.display = "none";
+                  } else {
+                      console.error('Wystąpił błąd podczas aktualizacji statusu');
+                  }
+              })
+              .catch(error => {
+                  console.error('Wystąpił błąd podczas aktualizacji statusu', error);
+              });
       }
       </script>
       
