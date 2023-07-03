@@ -344,14 +344,6 @@ nav, h5, #header, .title { display: none; }
       height: 90px;
     }
   }
-  .komunikat {
-    background-color: black;
-    color: #00ff0d;
-    padding: 10px;
-    text-align: middle;
-    display: flex;
-    justify-content: center;
-  }
   .submit-button, .edit-button {
     height: 40px;
     width: 120px;
@@ -380,4 +372,7 @@ nav, h5, #header, .title { display: none; }
   }
   .status-select{
     width: 120px;
+  }
+  #liczba{
+    width: 150%;
   }
