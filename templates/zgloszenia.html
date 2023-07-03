@@ -70,6 +70,10 @@
                 <th>Kod pocztowy</th>
                 <th>Numer lokalu</th>
                 <th>Status</th> <!-- Dodaj kolumnę status -->
+                <th class="hidden">Imię</th>
+                <th class="hidden">Nazwisko</th>
+                <th class="hidden">Data urodzenia</th>
+                <th class="hidden">Opis</th>
               </tr>
         </thead>
         <tbody>
@@ -87,6 +91,10 @@
               <td>{{ zgloszenie[9] }}</td>
               <td>{{ zgloszenie[10] }}</td>
                <td>{{ zgloszenie[11] }}</td> <!-- Wyświetl status -->
+               <td class="hidden">{{ zgloszenie[12] }}</td>
+               <td class="hidden">{{ zgloszenie[13] }}</td>
+               <td class="hidden">{{ zgloszenie[14] }}</td>
+               <td class="hidden">{{ zgloszenie[15] }}</td>
                <script>
 function showFields(zgloszenieId) {
     const statusElement = document.querySelector(`.status[data-zgloszenie-id="${zgloszenieId}"]`);
@@ -99,6 +107,7 @@ function showFields(zgloszenieId) {
     submitButton.style.display = "block";
 }
                 </script>
+
     <td class="status" data-zgloszenie-id="{{ zgloszenie[3] }}" data-aktualny-status="{{ zgloszenie[11] }}">
       <div class="button-container">
         <div>

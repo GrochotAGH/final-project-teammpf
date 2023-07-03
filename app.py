@@ -259,7 +259,6 @@ def zgloszenie():
         # Pobranie aktualnej daty i godziny
         data_zgloszenia = datetime.now().date()
         godzina_zgloszenia = datetime.now().time()
-        opis_sprawcy=''
 
                 # Sprawdzenie, czy użytkownik jest zalogowany
         if session.get('zalogowany'):
@@ -276,7 +275,7 @@ def zgloszenie():
         try:
             # Wstawienie danych do tabeli zgłoszenia
             insert_query = "INSERT INTO zgłoszenia (tytuł, user_id, godzina_zgloszenia, data_zgloszenia, status) " \
-                           "VALUES ('', %s, %s, %s, 'przyjęte')"
+                           "VALUES ('', %s, %s, %s, 'przyjęto')"
             insert_values = (user_id, godzina_zgloszenia, data_zgloszenia)
             cursor.execute(insert_query, insert_values)
             cnx.commit()
